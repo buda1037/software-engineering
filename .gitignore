@@ -4,3 +4,6 @@ __pycache__/
 # uv
 .venv
 dist/
+
+# ruff
+.ruff_cache/
