@@ -1,0 +1,7 @@
+---
+services:
+  hello-world:
+    image: hello-world:0.1.0
+    build: .
+    pull_policy: build
+
