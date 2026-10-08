@@ -33,9 +33,11 @@ build-backend = "uv_build"
 
 [project.urls]
 repository = "https://github.com/buda1037/software-engineering"
+changelog = "https://github.com/buda1037/software-engineering/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
+    "commitizen>=4.19.2,<5.0.0",
     "pytest>=9.1.0,<10.0.0",
 ]
 lint = [
@@ -43,6 +45,39 @@ lint = [
     "ty>=0.0.84,<1.0.0",
     "yamllint>=1.38.0,<2.0.0",
 ]
+
+[tool.commitizen]
+name = "cz_customize"
+version_provider = "uv"
+tag_format = "v$version"
+major_version_zero = true
+update_changelog_on_bump = true
+change_type_order = [
+    "BREAKING CHANGE",
+    "Features",
+    "Bug Fixes",
+    "Refactoring",
+    "Code Style",
+    "Tests",
+    "Documentation",
+    "Build System",
+    "CI",
+    "Chores",
+]
+
+[tool.commitizen.change_type_map]
+feat = "Features"
+fix = "Bug Fixes"
+refactor = "Refactoring"
+style = "Code Style"
+test = "Tests"
+docs = "Documentation"
+build = "Build System"
+ci = "CI"
+chore = "Chores"
+
+[tool.commitizen.customize]
+commit_parser = '^((?P<change_type>feat|fix|refactor|style|test|docs|build|ci|chore|BREAKING CHANGE)(?:\((?P<scope>[^()\r\n]*)\)|\()?(?P<breaking>!)?|\w+!):\s(?P<message>.*)?'
 
 [tool.pytest]
 minversion = "9.1.0"
