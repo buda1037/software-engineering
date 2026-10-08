@@ -24,6 +24,9 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 dependencies = []
 
+[project.scripts]
+hello-world = "hello_world:main"
+
 [build-system]
 requires = ["uv_build>=0.12.20,<1.0.0"]
 build-backend = "uv_build"
@@ -32,11 +35,19 @@ build-backend = "uv_build"
 repository = "https://github.com/buda1037/software-engineering"
 
 [dependency-groups]
+dev = [
+    "pytest>=9.1.0,<10.0.0",
+]
 lint = [
     "ruff>=0.16.9,<1.0.0",
     "ty>=0.0.84,<1.0.0",
     "yamllint>=1.38.0,<2.0.0",
 ]
+
+[tool.pytest]
+minversion = "9.1.0"
+pythonpath = ["src"]
+testpaths = ["tests/unit/hello_world"]
 
 [tool.ruff]
 preview = true
@@ -107,6 +118,7 @@ max-statements-in-try = 7
 
 [tool.ty.environment]
 python = "./.venv"
+root = ["./src", "./tests/unit"]
 
 [tool.uv]
 required-version = ">= 0.12.20"
@@ -124,3 +136,6 @@ preview-features = [
 ]
 add-bounds = "major"
 default-groups = "all"
+
+[tool.uv.build-backend]
+module-name = "hello_world"

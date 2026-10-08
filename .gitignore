@@ -5,5 +5,8 @@ __pycache__/
 .venv
 dist/
 
+# pytest
+.pytest_cache/
+
 # ruff
 .ruff_cache/
