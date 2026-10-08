@@ -1,0 +1,49 @@
+[project]
+name = "software-engineering"
+version = "0.1.0"
+description = "Results of the Software Engineering module at HKA"
+readme = "README.md"
+authors = [
+    { name = "Abdullah Almajzoub", email = "alab1018@h-ka.de" },
+    { name = "Daniel Büttner", email = "buda1037@h-ka.de" },
+]
+maintainers = [
+    { name = "Abdullah Almajzoub", email = "alab1018@h-ka.de" },
+    { name = "Daniel Büttner", email = "buda1037@h-ka.de" },
+]
+requires-python = ">=3.15"
+keywords = [
+    "Python",
+]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.15",
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.12.20,<1.0.0"]
+build-backend = "uv_build"
+
+[project.urls]
+repository = "https://github.com/buda1037/software-engineering"
+
+[tool.uv]
+required-version = ">= 0.12.20"
+preview-features = [
+    "add-bounds",
+    "audit-command",
+    "centralized-project-envs",
+    "check-command",
+    "content-addressed-cache",
+    "detect-module-conflicts",
+    "format-command",
+    "json-output",
+    "malware-check",
+    "tool-install-locks",
+]
+add-bounds = "major"
+default-groups = "all"
