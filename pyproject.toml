@@ -128,7 +128,7 @@ max-statements-in-try = 7
 
 [tool.ty.environment]
 python = "./.venv"
-root = ["./src", "./tests/unit", "./tests/integration"]
+root = ["./src", "./tests/unit"]
 
 [tool.uv]
 required-version = ">= 0.12.20"
