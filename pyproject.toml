@@ -24,6 +24,9 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 dependencies = []
 
+[project.scripts]
+hello-world = "hello_world:main"
+
 [build-system]
 requires = ["uv_build>=0.12.20,<1.0.0"]
 build-backend = "uv_build"
@@ -146,3 +149,6 @@ default-groups = "all"
 exclude-newer = "1 day"
 extra = ["dev", "doc", "lint"]
 all-extras = true
+
+[tool.uv.build-backend]
+module-name = "hello_world"
