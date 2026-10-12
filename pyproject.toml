@@ -36,8 +36,16 @@ dev = [
     "pytest>=9.1.0,<10.0.0",
 ]
 lint = [
+    "pyrefly>=1.4.0-dev.2,<2.0.0",
     "ty>=0.0.84,<1.0.0",
 ]
+
+[tool.pyrefly]
+project-includes = ["src", "tests"]
+python-version = "3.15"
+required-version = ">=1.4.0-dev.2,<2.0.0"
+min-severity = "warn"
+preset = "strict"
 
 [tool.pytest]
 minversion = "9.1.0"

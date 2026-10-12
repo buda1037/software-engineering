@@ -48,6 +48,25 @@ wheels = [
 ]
 
 [[package]]
+name = "pyrefly"
+version = "1.4.0.dev3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/28/a4/76670779689fa8aeca432995bb4403ddf44b216b271b81aa7b1f739fdab3/pyrefly-1.4.0.dev3.tar.gz", hash = "sha256:2b46d7f2652e40e5dae639b99a5edf99f44f9a7bdffe4bb5c5c704c5984a5928", size = 6886172, upload-time = "2026-10-02T22:02:05.905Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c8/9c/0cb970318025e4703bad0c1444ca28bc4b8c5bf73b636b3c18b24432483b/pyrefly-1.4.0.dev3-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:78f69e666f12deee9c20b053b41d8551d1c502ff409d596b98d34d7c1293caa9", size = 15405800, upload-time = "2026-10-02T22:01:37.359Z" },
+    { url = "https://files.pythonhosted.org/packages/fe/6a/96d542af1487ffc9569076f99a87a37785178f6884e7443df81f51b7adad/pyrefly-1.4.0.dev3-py3-none-macosx_11_0_arm64.whl", hash = "sha256:4e569085e52b22fa0b9cbdeee1ba66085a4b7d84c992a819255fa1b9415728da", size = 14693143, upload-time = "2026-10-02T22:01:40.178Z" },
+    { url = "https://files.pythonhosted.org/packages/84/a0/f2d0ec58f5c79986d6e2d5b80d7bae04e18f2e66c1a7d6f89a3b235e0d33/pyrefly-1.4.0.dev3-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6a394df8553690e837cc09fd34b108b96f2d1ba2ba0bd25ef4e4d190ee9caa07", size = 15146280, upload-time = "2026-10-02T22:01:42.649Z" },
+    { url = "https://files.pythonhosted.org/packages/c6/9d/dc5f8994b1f23fa41a982c3882aa031a50fe31e6f205764b4741de26b98a/pyrefly-1.4.0.dev3-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:c969ff86ebdbdb2f926d68840651e002ec7d8b7107ec03368522f8018efcd454", size = 16536807, upload-time = "2026-10-02T22:01:44.954Z" },
+    { url = "https://files.pythonhosted.org/packages/8f/a0/ab5fcb37db706f9fd6db645cbf0bd9356028ceed0b8cfea8324ac6ce8a76/pyrefly-1.4.0.dev3-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:ad204ecb7f4a3d35dbdf99cd4ab745b1fb78da18f6a9a85ca258cca802ddf8e2", size = 16424790, upload-time = "2026-10-02T22:01:47.687Z" },
+    { url = "https://files.pythonhosted.org/packages/a1/c1/6b31393a0206eb6232650556dfbbfbfb7bfeb3eff3c15081123d37e325ff/pyrefly-1.4.0.dev3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6026a66345c5305797a31b68b351a7deac34ae456392c51230ba7cdb5d55db9b", size = 15764686, upload-time = "2026-10-02T22:01:50.658Z" },
+    { url = "https://files.pythonhosted.org/packages/96/8c/2b12843a3abad8aeb60e2e170abc6db8161296974a908c01d1f2226b77d2/pyrefly-1.4.0.dev3-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:8361e27acd0e7facdc7999e6a2d325da4fb95d6e67a06b97cddc799d92edd4f3", size = 15162695, upload-time = "2026-10-02T22:01:53.03Z" },
+    { url = "https://files.pythonhosted.org/packages/ca/73/b614426afed62c8312c512ddbd1c342337433ff8b4066cdeda092cfdd23c/pyrefly-1.4.0.dev3-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:b482fe4985da94f3b75665a07f40b7442bdb22cb1a75c10302c4293289864671", size = 15817493, upload-time = "2026-10-02T22:01:55.5Z" },
+    { url = "https://files.pythonhosted.org/packages/38/fd/bd88851037755506bacc5ac47adc4ae1f3893d97768727388bbdf11faa03/pyrefly-1.4.0.dev3-py3-none-win32.whl", hash = "sha256:79058452616ed3dfb9b30f4f3b0be88599a5ad0eeb2b03669d63b79aa88ab6d7", size = 14569247, upload-time = "2026-10-02T22:01:58.216Z" },
+    { url = "https://files.pythonhosted.org/packages/30/dd/ddfc3b123529e0096e97619fd87614f578bb5665bb638cdd47cd99259979/pyrefly-1.4.0.dev3-py3-none-win_amd64.whl", hash = "sha256:414a80cfbc082d4afc75e86944e033a9cfd4a0eac29610b48ed2b94f2ec503bf", size = 15407803, upload-time = "2026-10-02T22:02:00.844Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/0e/c375528ef2cd674a78511c2822bfd1f73541336f3d2dac4ccab09d4709cb/pyrefly-1.4.0.dev3-py3-none-win_arm64.whl", hash = "sha256:c3d156f9811ffbf74e3d50cba7fb6ebcde08f2816e92fa393d473090c9279552", size = 14646157, upload-time = "2026-10-02T22:02:03.415Z" },
+]
+
+[[package]]
 name = "pytest"
 version = "9.1.1"
 source = { registry = "https://pypi.org/simple" }
@@ -74,6 +93,7 @@ dev = [
     { name = "pytest" },
 ]
 lint = [
+    { name = "pyrefly" },
     { name = "ty" },
 ]
 
@@ -81,7 +101,10 @@ lint = [
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.1.0,<10.0.0" }]
-lint = [{ name = "ty", specifier = ">=0.0.84,<1.0.0" }]
+lint = [
+    { name = "pyrefly", specifier = ">=1.4.0.dev2,<2.0.0" },
+    { name = "ty", specifier = ">=0.0.84,<1.0.0" },
+]
 
 [[package]]
 name = "ty"
