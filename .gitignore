@@ -7,3 +7,6 @@ dist/
 
 # pytest
 .pytest_cache/
+
+# Ruff
+.ruff_cache/
