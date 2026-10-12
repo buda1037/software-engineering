@@ -33,9 +33,11 @@ build-backend = "uv_build"
 
 [project.urls]
 repository = "https://github.com/buda1037/software-engineering"
+changelog = "https://github.com/buda1037/software-engineering/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
+    "git-cliff>=2.14.2,<3.0.0",
     "pytest>=9.1.0,<10.0.0",
 ]
 lint = [
