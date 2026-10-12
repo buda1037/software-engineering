@@ -1,0 +1,5 @@
+---
+services:
+  hello-world:
+    build: .
+    pull_policy: build
