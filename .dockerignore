@@ -1,0 +1,14 @@
+# Ignore everything, then re-include
+*
+
+# uv
+!pyproject.toml
+!uv.lock
+
+# Python
+!src
+**/__pycache__
+
+# Build metadata
+!LICENSE
+!README.md

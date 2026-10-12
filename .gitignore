@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+
+# uv
+.venv
+dist/
+
+# pytest
+.pytest_cache/
+
+# Ruff
+.ruff_cache/
