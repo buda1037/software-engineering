@@ -35,11 +35,18 @@ repository = "https://github.com/buda1037/software-engineering"
 dev = [
     "pytest>=9.1.0,<10.0.0",
 ]
+lint = [
+    "ty>=0.0.84,<1.0.0",
+]
 
 [tool.pytest]
 minversion = "9.1.0"
 pythonpath = ["src"]
 testpaths = ["tests"]
+
+[tool.ty.environment]
+python = "./.venv"
+root = ["./src", "./tests/unit", "./tests/integration"]
 
 [tool.uv]
 required-version = ">= 0.12.20"
