@@ -43,6 +43,7 @@ changelog = "https://github.com/buda1037/software-engineering/blob/main/CHANGELO
 dev = [
     "git-cliff>=2.14.2,<3.0.0",
     "pytest>=9.1.0,<10.0.0",
+    "httpx2>=2.13.1,<3.0.0", # Required by starlette.testclient
 ]
 lint = [
     "pyrefly>=1.4.0-dev.2,<2.0.0",
