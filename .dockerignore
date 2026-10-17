@@ -7,6 +7,7 @@
 
 # Python
 !src
+**/key.pem
 **/__pycache__
 
 # Build metadata

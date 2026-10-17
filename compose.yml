@@ -5,3 +5,12 @@ services:
     pull_policy: build
     ports:
       - "127.0.0.1:8000:8000"
+    volumes:
+      - type: bind
+        source: ./docker/app.toml
+        target: /opt/app/.venv/lib/python3.15/site-packages/student/config/resources/app.toml
+        read_only: true
+      - type: bind
+        source: ./src/student/config/resources/tls/key.pem
+        target: /opt/app/.venv/lib/python3.15/site-packages/student/config/resources/tls/key.pem
+        read_only: true
