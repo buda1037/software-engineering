@@ -1,0 +1,7 @@
+[server]
+host-binding = "127.0.0.1"
+port = 8000
+
+[tls]
+key = "key.pem"
+certificate = "certificate.crt"
