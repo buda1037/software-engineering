@@ -1,0 +1,62 @@
+---
+name: CI
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  UV_PROJECT_ENVIRONMENT: .venv
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e
+        with:
+          python-version: "3.15"
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Ruff lint
+        run: uv run --no-sync ruff check src tests
+
+      - name: Ruff formatting
+        run: uv run --no-sync ruff format --check src tests
+
+      - name: ty
+        run: uv run --no-sync ty check
+
+      - name: Pyrefly
+        run: uv run --no-sync pyrefly check --output-format full-text
+
+      - name: YAML lint
+        run: uv run --no-sync yamllint --strict .
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e
+        with:
+          python-version: "3.15"
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Run tests
+        run: uv run --no-sync pytest
