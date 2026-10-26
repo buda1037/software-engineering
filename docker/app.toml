@@ -5,3 +5,7 @@ port = 8000
 [tls]
 key = "key.pem"
 certificate = "certificate.crt"
+
+[logger]
+# locust: auskommentieren
+debug-level = true

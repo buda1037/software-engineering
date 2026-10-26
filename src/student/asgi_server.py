@@ -22,4 +22,5 @@ def run() -> None:
             port=port,
             ssl_certfile=str(certificate_path),
             ssl_keyfile=str(key_path),
+            access_log=False,
         )

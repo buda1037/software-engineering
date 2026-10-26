@@ -10,3 +10,6 @@ dist/
 
 # Ruff
 .ruff_cache/
+
+# Logging
+log
