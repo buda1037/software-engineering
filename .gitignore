@@ -11,6 +11,9 @@ dist/
 # Ruff
 .ruff_cache/
 
+# SonarQube scanner
+.scannerwork
+
 # Logging
 log
 
