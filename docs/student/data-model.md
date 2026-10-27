@@ -6,14 +6,14 @@ erDiagram
     STUDENT ||--o{ EXAM_RESULT : has
     STUDENT {
         int id PK
-        string matriculation_number UK "search"
+        string matriculation_number UK
         string? username UK
         string first_name
-        string last_name "search"
+        string last_name
         Gender? gender
         date date_of_birth
-        string email UK "search"
-        StudyProgram study_program "search"
+        string email UK
+        StudyProgram study_program
         date enrollment_date
     }
     ADDRESS {
