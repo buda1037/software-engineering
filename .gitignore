@@ -22,3 +22,7 @@ log
 
 # OWASP dependency report
 dependency-check-report.html
+
+# Library Skills
+.agents/skills/
+.claude/skills/
