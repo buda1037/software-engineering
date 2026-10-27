@@ -2,9 +2,12 @@
 
 from enum import StrEnum
 
+import strawberry
+
 __all__ = ["StudyProgram"]
 
 
+@strawberry.enum
 class StudyProgram(StrEnum):
     """Study program of a student."""
 
