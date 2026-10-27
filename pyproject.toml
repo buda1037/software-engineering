@@ -46,6 +46,7 @@ dev = [
     "git-cliff>=2.14.2,<3.0.0",
     "pytest>=9.1.1,<10.0.0",
     "httpx2>=2.16.0,<3.0.0", # Required by starlette.testclient
+    "python-dotenv>=1.2.4,<2.0.0",
 ]
 lint = [
     "pyrefly>=1.4.0,<2.0.0",

@@ -13,3 +13,9 @@ dist/
 
 # Logging
 log
+
+# dotenv
+.env
+
+# OWASP dependency report
+dependency-check-report.html
