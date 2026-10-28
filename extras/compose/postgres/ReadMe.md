@@ -154,10 +154,9 @@ Erwartet werden das Schema `student`, drei Tabellen und jeweils
 zwei Datensätze. Die Beispieldaten haben IDs unter 1000.
 Automatisch erzeugte IDs beginnen bei 1000.
 
-## Running the server
+## Später starten und stoppen
 
-PostgreSQL muss zuerst laufen. Die einmalige Einrichtung steht in
-[extras/compose/postgres/ReadMe.md](extras/compose/postgres/ReadMe.md).
+Im Verzeichnis `extras/compose/postgres` starten:
 
 ```powershell
-docker compose -f extras/compose/postgres/compose.yml up -d --wait
+docker compose up -d
