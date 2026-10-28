@@ -2,8 +2,11 @@
 services:
   keycloak:
     image: dhi.io/keycloak:26.7.4-debian13
-    command: ["start", "--hostname-strict=false", "--import-realm"]
-    ports:
+command:
+  - start
+  - --hostname-strict=false
+  - --import-realm
+  - --spi-admin--allowed-system-variables=KEYCLOAK_CLIENT_SECRET    ports:
       - "127.0.0.1:8880:8080"
     volumes:
       - keycloak_data:/opt/keycloak/data
