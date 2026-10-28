@@ -2,11 +2,10 @@
 services:
   keycloak:
     image: dhi.io/keycloak:26.7.4-debian13
-    command:
+       command:
       - start
       - --hostname-strict=false
       - --import-realm
-      - --spi-admin--allowed-system-variables=KEYCLOAK_CLIENT_SECRET
     ports:
       - "127.0.0.1:8880:8080"
     volumes:
@@ -15,8 +14,6 @@ services:
         source: ./realm
         target: /opt/keycloak/data/import
         read_only: true
-    env_file:
-      - ../../../.env
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: tmp
       KC_BOOTSTRAP_ADMIN_PASSWORD: p
