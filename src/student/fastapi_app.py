@@ -8,8 +8,10 @@ from fastapi import FastAPI, Request, Response
 from starlette.routing import Route
 
 from student.config.config import logger
+from student.router import hello_router, student_router
 
 __all__ = ["app"]
+
 
 app: Final = FastAPI()
 
@@ -19,7 +21,7 @@ async def log_request(
     request: Request,
     call_next: Callable[[Request], Awaitable[Response]],
 ) -> Response:
-    """Log one request summary without personal data."""
+    """Protokolliert eine Anfrage mit Status und Dauer."""
     start = time()
     status_code = 500
 
@@ -41,10 +43,8 @@ async def log_request(
         )
 
 
-@app.get("/hello")
-def hello() -> dict[str, str]:
-    """Return hello world.
-
-    :return: Hello world as dict
-    """
-    return {"Hello": "World"}
+# --------------------------------------------------------------------------------------
+# R E S T
+# --------------------------------------------------------------------------------------
+app.include_router(student_router, prefix="/rest")
+app.include_router(hello_router, prefix="/hello")
