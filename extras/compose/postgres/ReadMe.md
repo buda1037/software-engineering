@@ -154,21 +154,10 @@ Erwartet werden das Schema `student`, drei Tabellen und jeweils
 zwei Datensätze. Die Beispieldaten haben IDs unter 1000.
 Automatisch erzeugte IDs beginnen bei 1000.
 
-## Später starten und stoppen
+## Running the server
 
-Im Verzeichnis `extras/compose/postgres` starten:
-
-```powershell
-docker compose up -d
-```
-
-Stoppen:
+PostgreSQL muss zuerst laufen. Die einmalige Einrichtung steht in
+[extras/compose/postgres/ReadMe.md](extras/compose/postgres/ReadMe.md).
 
 ```powershell
-docker compose down
-```
-
-Die externen Named Volumes bleiben dabei erhalten. Die einmalige
-Einrichtung und der CSV-Import werden beim normalen Start nicht wiederholt.
-
-Die Anbindung des Student-Repositorys an PostgreSQL folgt in Issue #36.
+docker compose -f extras/compose/postgres/compose.yml up -d --wait
