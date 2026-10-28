@@ -14,3 +14,9 @@ services:
         source: ./src/student/config/resources/tls/key.pem
         target: /opt/app/.venv/lib/python3.15/site-packages/student/config/resources/tls/key.pem
         read_only: true
+    networks: [student-network]
+
+networks:
+  student-network:
+    name: student-network
+    external: true
