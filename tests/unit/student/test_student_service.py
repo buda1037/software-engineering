@@ -3,7 +3,7 @@
 from dataclasses import asdict
 from datetime import date
 from decimal import Decimal
-from unittest.mock import create_autospec
+from unittest.mock import create_autospec, patch
 
 import pytest
 
@@ -49,10 +49,18 @@ def test_find_by_id() -> None:
     service = StudentService(repo=repo_mock)
 
     # Act
-    student_dto = service.find_by_id(student_id=student_id)
+    with patch("student.service.student_service.Session") as session_factory:
+        session_mock = session_factory.return_value.__enter__.return_value
+        student_dto = service.find_by_id(student_id=student_id)
 
     # Assert
-    repo_mock.find_by_id.assert_called_once_with(student_id=student_id)
+    session_factory.assert_called_once_with()
+    repo_mock.find_by_id.assert_called_once_with(
+        student_id=student_id,
+        session=session_mock,
+    )
+    session_mock.commit.assert_called_once_with()
+
     assert isinstance(student_dto, StudentDTO)
     assert asdict(student_dto) == {
         "id": student_id,
@@ -90,9 +98,17 @@ def test_find_by_id_not_found() -> None:
     service = StudentService(repo=repo_mock)
 
     # Act
-    with pytest.raises(NotFoundError) as err:
-        service.find_by_id(student_id=student_id)
+    with patch("student.service.student_service.Session") as session_factory:
+        session_mock = session_factory.return_value.__enter__.return_value
+
+        with pytest.raises(NotFoundError) as err:
+            service.find_by_id(student_id=student_id)
 
     # Assert
-    repo_mock.find_by_id.assert_called_once_with(student_id=student_id)
+    session_factory.assert_called_once_with()
+    repo_mock.find_by_id.assert_called_once_with(
+        student_id=student_id,
+        session=session_mock,
+    )
+    session_mock.commit.assert_not_called()
     assert err.value.student_id == student_id
