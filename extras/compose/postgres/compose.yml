@@ -1,0 +1,64 @@
+---
+name: student-postgres
+
+services:
+  postgres:
+    image: postgres:19beta4-trixie
+    ports:
+      - published: 5432
+        target: 5432
+
+    volumes:
+      - pg_data:/var/lib/postgresql/19/docker
+      - pg_tablespace:/tablespace
+      - pg_init:/init:ro
+
+    environment:
+      TZ: Europe/Berlin
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      POSTGRES_INITDB_ARGS: "--auth-local=scram-sha-256 --auth-host=scram-sha-256"
+
+    secrets: [db_password]
+    networks: [student-network]
+    user: "postgres:postgres"
+    hostname: postgres
+    container_name: student-postgres
+    cap_drop: [ALL]
+
+    healthcheck:
+      test: [CMD, pg_isready, --dbname=postgres, --username=postgres]
+      interval: 5s
+      timeout: 2s
+      retries: 2
+      start_period: 5s
+
+    restart: unless-stopped
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 768M
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+
+secrets:
+  db_password:
+    file: ./password.txt
+
+volumes:
+  pg_data:
+    name: student_pg_data
+    external: true
+  pg_tablespace:
+    name: student_pg_tablespace
+    external: true
+  pg_init:
+    name: student_pg_init
+    external: true
+
+networks:
+  student-network:
+    name: student-network

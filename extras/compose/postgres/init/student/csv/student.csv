@@ -1,0 +1,3 @@
+id;matriculation_number;username;first_name;last_name;gender;date_of_birth;email;study_program;enrollment_date
+1;123456;mamu1011;Max;Mustermann;MALE;2004-05-17;max.mustermann@example.invalid;WIRTSCHAFTSINFORMATIK;2024-10-01
+2;654321;;Erika;Musterfrau;FEMALE;2003-08-12;erika.musterfrau@example.invalid;DATA_SCIENCE;2023-10-01
