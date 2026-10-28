@@ -16,22 +16,37 @@ Create the virtual environment and install all dependencies including the develo
 ```powershell
 uv sync
 ```
-
 ## Running the server
 
-Locally:
+PostgreSQL muss zuerst laufen. Die einmalige Einrichtung steht in
+[extras/compose/postgres/ReadMe.md](extras/compose/postgres/ReadMe.md).
+
+```powershell
+docker compose -f extras/compose/postgres/compose.yml up -d --wait
+```
+
+Danach wähle genau eine Variante, weil beide Port 8000 verwenden.
+
+Lokal:
 
 ```powershell
 uv run student
 ```
 
-With Docker Compose (builds the image):
+Falls Windows den Befehl blockiert:
 
 ```powershell
-docker compose up
+uv run --python 3.15.2 python -m student
 ```
 
-URL: <https://127.0.0.1:8000>, e.g. <https://127.0.0.1:8000/hello>. The TLS certificate is self-signed.
+Mit Docker Compose:
+
+```powershell
+docker compose up --build
+```
+
+Die API ist beispielsweise unter <https://localhost:8000/rest/1> erreichbar.
+Das TLS-Zertifikat ist selbstsigniert.
 
 ## Checks and tests
 

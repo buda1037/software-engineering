@@ -160,15 +160,3 @@ Im Verzeichnis `extras/compose/postgres` starten:
 
 ```powershell
 docker compose up -d
-```
-
-Stoppen:
-
-```powershell
-docker compose down
-```
-
-Die externen Named Volumes bleiben dabei erhalten. Die einmalige
-Einrichtung und der CSV-Import werden beim normalen Start nicht wiederholt.
-
-Die Anbindung des Student-Repositorys an PostgreSQL folgt in Issue #36.

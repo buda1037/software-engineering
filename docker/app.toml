@@ -9,3 +9,12 @@ certificate = "certificate.crt"
 [logger]
 # locust: auskommentieren
 debug-level = true
+
+[db]
+# dialect = "postgresql"
+# username = "student"
+# name = "student"
+password = "p"
+host = "postgres"
+# locust: auskommentieren
+log-statements = true

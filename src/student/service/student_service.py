@@ -4,9 +4,9 @@ from typing import Final
 
 from loguru import logger
 
+from student.repository import Session, StudentRepository
 from student.service.exceptions import NotFoundError
 from student.service.student_dto import StudentDTO
-lazy from student.repository.student_repository import StudentRepository
 
 __all__ = ["StudentService"]
 
@@ -28,8 +28,14 @@ class StudentService:
         """
         logger.debug("student_id={}", student_id)
 
-        if (student := self.repo.find_by_id(student_id=student_id)) is None:
-            raise NotFoundError(student_id=student_id)
+        with Session() as session:
+            if (
+                student := self.repo.find_by_id(student_id=student_id, session=session)
+            ) is None:
+                raise NotFoundError(student_id=student_id)
 
-        student_dto: Final = StudentDTO.from_student(student)
+            student_dto: Final = StudentDTO.from_student(student)
+            session.commit()
+
+        logger.debug("{}", student_dto)
         return student_dto
