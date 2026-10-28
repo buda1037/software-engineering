@@ -26,3 +26,6 @@ dependency-check-report.html
 # Library Skills
 .agents/skills/
 .claude/skills/
+
+# PostgreSQL
+/extras/compose/postgres/password.txt
