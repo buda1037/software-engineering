@@ -19,19 +19,11 @@ uv sync
 
 ## Running the server
 
-Locally:
+PostgreSQL muss zuerst laufen. Die einmalige Einrichtung steht in
+[extras/compose/postgres/ReadMe.md](extras/compose/postgres/ReadMe.md).
 
 ```powershell
-uv run student
-```
-
-With Docker Compose (builds the image):
-
-```powershell
-docker compose up
-```
-
-URL: <https://127.0.0.1:8000>, e.g. <https://127.0.0.1:8000/hello>. The TLS certificate is self-signed.
+docker compose -f extras/compose/postgres/compose.yml up -d --wait
 
 ## Checks and tests
 
