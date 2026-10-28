@@ -2,7 +2,7 @@
 services:
   keycloak:
     image: dhi.io/keycloak:26.7.4-debian13
-       command:
+    command:
       - start
       - --hostname-strict=false
       - --import-realm
