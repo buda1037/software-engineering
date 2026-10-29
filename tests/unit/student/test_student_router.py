@@ -185,3 +185,22 @@ def test_search_with_filters(
             study_program=student_dto.study_program,
         ),
     )
+
+
+def test_search_without_filters(
+    service_mock: Mock,
+    student_dto: StudentDTO,
+) -> None:
+    # Arrange
+    service_mock.find.return_value = (student_dto,)
+
+    # Act
+    with TestClient(app) as client:
+        response = client.get("/rest")
+
+    # Assert
+    assert response.status_code == status.HTTP_200_OK
+    assert [student["id"] for student in response.json()] == [student_dto.id]
+    service_mock.find.assert_called_once_with(
+        suchparameter=StudentSuchparameter(),
+    )
