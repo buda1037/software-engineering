@@ -8,7 +8,19 @@ from pydantic import BaseModel, ConfigDict
 lazy from student.entity import Gender, StudyProgram
 lazy from student.service.student_dto import StudentDTO
 
-__all__ = ["StudentResponseModel"]
+__all__ = ["StudentFindModel", "StudentResponseModel"]
+
+
+class StudentFindModel(BaseModel):
+    """Suchparameter für die Studentensuche."""
+
+    last_name: str | None = None
+    email: str | None = None
+    study_program: StudyProgram | None = None
+
+    # Keine weiteren Attribute erlaubt
+    # unveraenderlich
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 class AddressResponseModel(BaseModel):
