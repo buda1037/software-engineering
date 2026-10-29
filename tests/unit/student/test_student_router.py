@@ -12,6 +12,7 @@ from fastapi.testclient import TestClient
 
 from student.entity import StudyProgram
 from student.fastapi_app import app
+from student.repository.student_suchparameter import StudentSuchparameter
 from student.router.dependencies import get_service
 from student.service.adresse_dto import AddressDTO
 from student.service.exam_result_dto import ExamResultDTO
@@ -154,3 +155,33 @@ def test_search_not_found(service_mock: Mock) -> None:
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.json() == {"detail": "Not Found"}
     service_mock.find.assert_called_once()
+
+
+def test_search_with_filters(
+    service_mock: Mock,
+    student_dto: StudentDTO,
+) -> None:
+    # Arrange
+    service_mock.find.return_value = (student_dto,)
+
+    # Act
+    with TestClient(app) as client:
+        response = client.get(
+            "/rest",
+            params={
+                "last_name": student_dto.last_name,
+                "email": student_dto.email,
+                "study_program": student_dto.study_program.value,
+            },
+        )
+
+    # Assert
+    assert response.status_code == status.HTTP_200_OK
+    assert [student["id"] for student in response.json()] == [student_dto.id]
+    service_mock.find.assert_called_once_with(
+        suchparameter=StudentSuchparameter(
+            last_name=student_dto.last_name,
+            email=student_dto.email,
+            study_program=student_dto.study_program,
+        ),
+    )
