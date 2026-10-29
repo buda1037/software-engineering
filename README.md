@@ -16,6 +16,7 @@ Create the virtual environment and install all dependencies including the develo
 ```powershell
 uv sync
 ```
+
 ## Running the server
 
 PostgreSQL muss zuerst laufen. Die einmalige Einrichtung steht in
@@ -113,3 +114,25 @@ uv run extras/dependency-check.py
 ```
 
 Report: `dependency-check-report.html`. The first run downloads the NVD database (about two hours). False positives are suppressed with a justification in [extras/suppression.xml](extras/suppression.xml).
+
+## Dokumentation
+
+Die Dokumentation verwendet MkDocs mit dem Material-Theme.
+
+Lokale Vorschau starten:
+
+```powershell
+uv run mkdocs serve --dev-addr 127.0.0.1:8001
+```
+
+Danach http://127.0.0.1:8001 öffnen.
+Port 8001 ermöglicht die Vorschau neben der Student-API auf Port 8000.
+Mit Strg+C beenden.
+
+HTML-Dokumentation erzeugen:
+
+```powershell
+uv run mkdocs build
+```
+
+Die Ausgabe liegt in `site/`. Dieser Ordner wird von Git ignoriert.
