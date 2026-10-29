@@ -29,3 +29,6 @@ dependency-check-report.html
 
 # PostgreSQL
 /extras/compose/postgres/password.txt
+
+# MkDocs
+/site/

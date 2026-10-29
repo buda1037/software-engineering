@@ -1,0 +1,26 @@
+---
+# Aufruf: uv run mkdocs serve
+site_name: Student
+
+nav:
+  - Übersicht: index.md
+  - Domänenmodell: student/domain-model.md
+  - Datenmodell: student/data-model.md
+
+theme:
+  name: material
+  language: de
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+
+strict: true
