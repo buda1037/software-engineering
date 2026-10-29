@@ -140,3 +140,17 @@ def test_search_invalid_study_program(service_mock: Mock) -> None:
     # Assert
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
     service_mock.find.assert_not_called()
+
+
+def test_search_not_found(service_mock: Mock) -> None:
+    # Arrange
+    service_mock.find.side_effect = NotFoundError()
+
+    # Act
+    with TestClient(app) as client:
+        response = client.get("/rest")
+
+    # Assert
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response.json() == {"detail": "Not Found"}
+    service_mock.find.assert_called_once()
