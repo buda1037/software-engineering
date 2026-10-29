@@ -1,0 +1,96 @@
+{
+  "realm": "student",
+  "enabled": true,
+  "displayName": "Student",
+  "clients": [
+    {
+      "clientId": "student-client",
+      "name": "Student Client",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "https://localhost:8000/*"
+      ],
+      "webOrigins": [
+        "https://localhost:8000"
+      ],
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "roles",
+        "profile",
+        "email",
+        "basic"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [],
+    "client": {
+      "student-client": [
+        {
+          "name": "admin",
+          "description": "Administrative access"
+        },
+        {
+          "name": "student",
+          "description": "Student access"
+        }
+      ]
+    }
+  },
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "email": "admin@example.invalid",
+      "firstName": "Admin",
+      "lastName": "Student",
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "p",
+          "temporary": false
+        }
+      ],
+      "clientRoles": {
+        "student-client": [
+          "admin"
+        ]
+      }
+    },
+    {
+      "username": "mamu1011",
+      "enabled": true,
+      "email": "max.mustermann@example.invalid",
+      "firstName": "Max",
+      "lastName": "Mustermann",
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "p",
+          "temporary": false
+        }
+      ],
+      "clientRoles": {
+        "student-client": [
+          "student"
+        ]
+      }
+    }
+  ]
+}
