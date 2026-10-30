@@ -55,7 +55,7 @@
     {
       "username": "admin",
       "enabled": true,
-      "email": "admin@example.invalid",
+      "email": "admin@example.com",
       "firstName": "Admin",
       "lastName": "Student",
       "emailVerified": true,
@@ -75,7 +75,7 @@
     {
       "username": "mamu1011",
       "enabled": true,
-      "email": "max.mustermann@example.invalid",
+      "email": "max.mustermann@example.com",
       "firstName": "Max",
       "lastName": "Mustermann",
       "emailVerified": true,

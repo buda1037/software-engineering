@@ -25,7 +25,7 @@ def test_find_by_id() -> None:
         last_name="Student",
         gender=Gender.MALE,
         date_of_birth=date(2004, 5, 17),
-        email="test.student@example.invalid",
+        email="test.student@example.com",
         study_program=StudyProgram.WIRTSCHAFTSINFORMATIK,
         enrollment_date=date(2024, 10, 1),
         address=Address(
@@ -70,7 +70,7 @@ def test_find_by_id() -> None:
         "last_name": "Student",
         "gender": Gender.MALE,
         "date_of_birth": date(2004, 5, 17),
-        "email": "test.student@example.invalid",
+        "email": "test.student@example.com",
         "study_program": StudyProgram.WIRTSCHAFTSINFORMATIK,
         "enrollment_date": date(2024, 10, 1),
         "address": {

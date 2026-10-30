@@ -151,7 +151,7 @@ $env:STUDENT_TEST_DB_PASSWORD = 'p'
 uv run pytest tests/integration -v
 ```
 
-Vor jedem Testlauf wird das lokale Schema `student` gelöscht, neu angelegt
+Vor jedem Test wird das lokale Schema `student` gelöscht, neu angelegt
 und mit den CSV-Beispieldaten geladen. Vorhandene Daten in diesem Schema
 werden ersetzt. Diese Tests nur gegen die lokale Übungsdatenbank ausführen.
 

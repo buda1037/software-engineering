@@ -1,0 +1,53 @@
+---
+info:
+  name: Neuer Student
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{restUrl}}"
+  body:
+    type: json
+    data: |-
+      {
+        "matriculation_number": "777777",
+        "username": "jado1012",
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "gender": "FEMALE",
+        "date_of_birth": "2005-03-14",
+        "email": "jane.doe@example.com",
+        "study_program": "DATA_SCIENCE",
+        "enrollment_date": "2025-10-01",
+        "address": {
+          "street": "Moltkestraße",
+          "house_number": "30",
+          "postal_code": "76133",
+          "city": "Karlsruhe"
+        },
+        "exam_results": [
+          {
+            "module": "Statistik",
+            "grade": 1.7,
+            "ects": 6,
+            "exam_date": "2026-02-10"
+          }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+    - expression: res.headers.location
+      operator: contains
+      value: /rest/
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

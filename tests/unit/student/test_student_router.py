@@ -46,7 +46,7 @@ def student_dto() -> StudentDTO:
         last_name="Student",
         gender=None,
         date_of_birth=date(2004, 5, 17),
-        email="test.student@example.invalid",
+        email="test.student@example.com",
         study_program=StudyProgram.WIRTSCHAFTSINFORMATIK,
         enrollment_date=date(2024, 10, 1),
         address=AddressDTO(
@@ -85,7 +85,7 @@ def test_get_by_id(service_mock: Mock, student_dto: StudentDTO) -> None:
         "last_name": "Student",
         "gender": None,
         "date_of_birth": "2004-05-17",
-        "email": "test.student@example.invalid",
+        "email": "test.student@example.com",
         "study_program": "WIRTSCHAFTSINFORMATIK",
         "enrollment_date": "2024-10-01",
         "address": {

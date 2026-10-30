@@ -16,6 +16,59 @@ __all__ = ["StudentRepository"]
 class StudentRepository:
     """Repository-Klasse für die Entity-Klasse Student."""
 
+    def create(self, student: Student, session: Session) -> Student:
+        """Einen neuen Studenten mit Adresse und Prüfungsergebnissen speichern.
+
+        :param student: Der neue Student ohne ID
+        :param session: Session für SQLAlchemy
+        :return: Der neue Student mit generierter ID
+        :rtype: Student
+        """
+        logger.debug("{}", student)
+        session.add(student)
+        session.flush(objects=[student])
+        logger.debug("student_id={}", student.id)
+        return student
+
+    def exists_email(self, email: str, session: Session) -> bool:
+        """Prüfen, ob die Emailadresse bereits verwendet wird.
+
+        :param email: Die zu prüfende Emailadresse
+        :param session: Session für SQLAlchemy
+        :return: True, falls ein Student die Emailadresse hat
+        :rtype: bool
+        """
+        statement: Final = select(Student.id).where(Student.email == email)
+        return session.scalar(statement) is not None
+
+    def exists_matriculation_number(
+        self,
+        matriculation_number: str,
+        session: Session,
+    ) -> bool:
+        """Prüfen, ob die Matrikelnummer bereits verwendet wird.
+
+        :param matriculation_number: Die zu prüfende Matrikelnummer
+        :param session: Session für SQLAlchemy
+        :return: True, falls ein Student die Matrikelnummer hat
+        :rtype: bool
+        """
+        statement: Final = select(Student.id).where(
+            Student.matriculation_number == matriculation_number,
+        )
+        return session.scalar(statement) is not None
+
+    def exists_username(self, username: str, session: Session) -> bool:
+        """Prüfen, ob der Benutzername bereits verwendet wird.
+
+        :param username: Der zu prüfende Benutzername
+        :param session: Session für SQLAlchemy
+        :return: True, falls ein Student den Benutzernamen hat
+        :rtype: bool
+        """
+        statement: Final = select(Student.id).where(Student.username == username)
+        return session.scalar(statement) is not None
+
     def find_by_id(self, student_id: int | None, session: Session) -> Student | None:
         """Suche mit der Student-ID.
 
