@@ -87,3 +87,23 @@ def test_delete_unknown_id(client: httpx.Client) -> None:
     # Assert
     assert response.status_code == HTTPStatus.NO_CONTENT
     assert response.content == b""
+
+
+def test_delete_existing_student(client: httpx.Client) -> None:
+    # Arrange
+    student_id = 1
+    before = client.get(f"/rest/{student_id}")
+    assert before.status_code == HTTPStatus.OK
+
+    # Act
+    response = client.delete(f"/rest/{student_id}")
+
+    # Assert
+    assert response.status_code == HTTPStatus.NO_CONTENT
+    assert response.content == b""
+
+    after = client.get(f"/rest/{student_id}")
+    assert after.status_code == HTTPStatus.NOT_FOUND
+
+    repeated = client.delete(f"/rest/{student_id}")
+    assert repeated.status_code == HTTPStatus.NO_CONTENT
