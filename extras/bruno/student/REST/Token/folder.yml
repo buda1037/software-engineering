@@ -1,0 +1,9 @@
+---
+info:
+  name: Token
+  type: folder
+  seq: 6
+
+docs:
+  content: Access Token über POST /auth/token mit Benutzername und Passwort.
+  type: text/markdown

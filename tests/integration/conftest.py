@@ -1,5 +1,6 @@
 """Fixtures für Integrationstests gegen den laufenden Student-Server."""
 
+from http import HTTPStatus
 from os import environ
 from pathlib import Path
 from ssl import create_default_context
@@ -12,21 +13,49 @@ from psycopg import sql
 lazy import httpx
 
 
-@pytest.fixture(scope="session")
-def client() -> Iterator[httpx.Client]:
-    """Stellt einen HTTP-Client mit dem lokalen Serverzertifikat bereit."""
+def _create_client(username: str | None = None) -> httpx.Client:
+    """Erzeugt einen HTTP-Client, optional mit dem Token des Benutzers."""
     certificate = (
         Path(__file__).resolve().parents[2]
         / "src/student/config/resources/tls/certificate.crt"
     )
-    tls_context = create_default_context(cafile=str(certificate))
-
-    with httpx.Client(
+    http_client = httpx.Client(
         base_url="https://localhost:8000",
-        verify=tls_context,
+        verify=create_default_context(cafile=str(certificate)),
         timeout=10.0,
-    ) as http_client:
-        yield http_client
+    )
+    if username is not None:
+        response = http_client.post(
+            "/auth/token",
+            json={"username": username, "password": "p"},
+        )
+        assert response.status_code == HTTPStatus.OK, response.text
+        http_client.headers["Authorization"] = f"Bearer {response.json()['token']}"
+    return http_client
+
+
+@pytest.fixture(scope="session")
+def client() -> Iterator[httpx.Client]:
+    """Stellt einen HTTP-Client mit dem Token des Benutzers admin bereit."""
+    http_client = _create_client(username="admin")
+    yield http_client
+    http_client.close()
+
+
+@pytest.fixture(scope="session")
+def student_client() -> Iterator[httpx.Client]:
+    """Stellt einen HTTP-Client mit dem Token von mamu1011 (Student 1) bereit."""
+    http_client = _create_client(username="mamu1011")
+    yield http_client
+    http_client.close()
+
+
+@pytest.fixture(scope="session")
+def client_without_token() -> Iterator[httpx.Client]:
+    """Stellt einen HTTP-Client ohne Token bereit."""
+    http_client = _create_client()
+    yield http_client
+    http_client.close()
 
 
 @pytest.fixture(autouse=True)

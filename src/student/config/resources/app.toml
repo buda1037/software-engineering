@@ -18,3 +18,11 @@ password = "p"
 host = "localhost"
 # locust: auskommentieren
 log-statements = true
+
+[keycloak]
+# schema = "http"
+host = "localhost"
+port = 8880
+# realm = "student"
+# client-id = "student-client"
+# Client-Geheimnis: Umgebungsvariable KEYCLOAK_CLIENT_SECRET, lokal in .env

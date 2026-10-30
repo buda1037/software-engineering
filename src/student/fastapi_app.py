@@ -4,11 +4,13 @@ from time import time
 from typing import Final
 lazy from collections.abc import Awaitable, Callable
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, status
+from fastapi.responses import JSONResponse
 from starlette.routing import Route
 
 from student.config.config import logger
 from student.router import hello_router, student_router, student_write_router
+from student.security import AuthorizationError, LoginError, auth_router
 
 __all__ = ["app"]
 
@@ -49,3 +51,36 @@ async def log_request(
 app.include_router(student_router, prefix="/rest")
 app.include_router(hello_router, prefix="/hello")
 app.include_router(student_write_router, prefix="/rest")
+app.include_router(auth_router, prefix="/auth")
+
+
+# --------------------------------------------------------------------------------------
+# S e c u r i t y
+# --------------------------------------------------------------------------------------
+@app.exception_handler(AuthorizationError)
+def authorization_error_handler(
+    _request: Request,
+    _err: AuthorizationError,
+) -> Response:
+    """Fehlender oder ungültiger Token.
+
+    :return: Response mit Statuscode 401
+    :rtype: Response
+    """
+    return Response(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+
+@app.exception_handler(LoginError)
+def login_error_handler(_request: Request, err: LoginError) -> Response:
+    """Fehlerhafter Benutzername oder fehlerhaftes Passwort.
+
+    :return: Response mit Statuscode 401
+    :rtype: Response
+    """
+    return JSONResponse(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        content={"detail": str(err)},
+    )

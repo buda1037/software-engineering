@@ -26,6 +26,14 @@ PostgreSQL muss zuerst laufen. Die einmalige Einrichtung steht in
 docker compose -f extras/compose/postgres/compose.yml up -d --wait
 ```
 
+Keycloak muss ebenfalls laufen. Die einmalige Einrichtung und das
+Client-Geheimnis `KEYCLOAK_CLIENT_SECRET` in `.env` stehen in
+[extras/compose/keycloak/ReadMe.md](extras/compose/keycloak/ReadMe.md).
+
+```powershell
+docker compose -f extras/compose/keycloak/compose.yml up -d
+```
+
 Danach wähle genau eine Variante, weil beide Port 8000 verwenden.
 
 Lokal:
@@ -48,6 +56,15 @@ docker compose up --build
 
 Die API ist beispielsweise unter <https://localhost:8000/rest/1> erreichbar.
 Das TLS-Zertifikat ist selbstsigniert.
+
+Die REST-Endpunkte erfordern einen Token im Header
+`Authorization: Bearer <Token>`. `POST /auth/token` mit
+`{"username": "admin", "password": "p"}` liefert ihn.
+`GET /rest/{id}` ist für `admin` und den eigenen Studenten erlaubt,
+alle anderen Endpunkte nur für `admin`.
+
+In Bruno in der Umgebung `student` die geheimen Variablen `clientSecret`
+(Wert aus `.env`) und `password` (`p`) setzen.
 
 ## Checks and tests
 
@@ -146,6 +163,7 @@ Im Hauptverzeichnis mit PowerShell ausführen:
 
 ```powershell
 docker compose -f extras/compose/postgres/compose.yml up -d --wait
+docker compose -f extras/compose/keycloak/compose.yml up -d
 docker compose up -d --build
 $env:STUDENT_TEST_DB_PASSWORD = 'p'
 uv run pytest tests/integration -v

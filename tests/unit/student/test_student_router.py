@@ -2,6 +2,7 @@
 
 from datetime import date
 from decimal import Decimal
+from typing import Final
 from unittest.mock import create_autospec
 lazy from collections.abc import Iterator
 lazy from unittest.mock import Mock
@@ -14,11 +15,27 @@ from student.entity import StudyProgram
 from student.fastapi_app import app
 from student.repository.student_suchparameter import StudentSuchparameter
 from student.router.dependencies import get_service
+from student.security import Role, TokenService, User
+from student.security.dependencies import get_token_service
 from student.service.adresse_dto import AddressDTO
 from student.service.exam_result_dto import ExamResultDTO
 from student.service.exceptions import NotFoundError
 from student.service.student_dto import StudentDTO
 from student.service.student_service import StudentService
+
+ADMIN: Final = User(username="admin", roles=[Role.ADMIN])
+
+
+@pytest.fixture(autouse=True)
+def token_service_mock() -> Iterator[Mock]:
+    """Ersetzt Keycloak durch einen Token-Service, der immer einen Admin liefert."""
+    mock = create_autospec(TokenService, instance=True)
+    mock.get_user_from_request.return_value = ADMIN
+    app.dependency_overrides[get_token_service] = lambda: mock
+    try:
+        yield mock
+    finally:
+        app.dependency_overrides.pop(get_token_service, None)
 
 
 @pytest.fixture
@@ -75,7 +92,10 @@ def test_get_by_id(service_mock: Mock, student_dto: StudentDTO) -> None:
         response = client.get(f"/rest/{student_dto.id}")
 
     # Assert
-    service_mock.find_by_id.assert_called_once_with(student_id=student_dto.id)
+    service_mock.find_by_id.assert_called_once_with(
+        student_id=student_dto.id,
+        user=ADMIN,
+    )
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
         "id": student_dto.id,
@@ -115,7 +135,10 @@ def test_get_by_id_not_found(service_mock: Mock) -> None:
         response = client.get(f"/rest/{student_id}")
 
     # Assert
-    service_mock.find_by_id.assert_called_once_with(student_id=student_id)
+    service_mock.find_by_id.assert_called_once_with(
+        student_id=student_id,
+        user=ADMIN,
+    )
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.json() == {"detail": "Not Found"}
 
