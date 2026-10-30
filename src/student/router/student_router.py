@@ -2,10 +2,13 @@
 
 from typing import Annotated, Final
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from student.router.dependencies import get_service
-from student.router.student_find_model import StudentResponseModel
+from student.router.student_find_model import (
+    StudentFindModel,
+    StudentResponseModel,
+)
 from student.service.exceptions import NotFoundError
 lazy from student.service.student_service import StudentService
 
@@ -37,3 +40,29 @@ def get_by_id(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from exc
 
     return StudentResponseModel.from_dto(student)
+
+
+@student_router.get(
+    path="",
+    response_model=list[StudentResponseModel],
+)
+def get(
+    find_model: Annotated[StudentFindModel, Query()],
+    service: Annotated[StudentService, Depends(get_service)],
+) -> list[StudentResponseModel]:
+    """Suche mit Query-Parameter.
+
+    :param find_model: Validierte Suchparameter als Pydantic-Modell
+    :param service: Injizierter Service für Geschäftslogik
+    :return: Liste der gefundenen Studenten
+    :rtype: list[StudentResponseModel]
+    :raises HTTPException: Falls keine Studenten gefunden wurden
+    """
+    try:
+        studenten = service.find(
+            suchparameter=find_model.to_suchparameter(),
+        )
+    except NotFoundError as exc:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from exc
+
+    return [StudentResponseModel.from_dto(student) for student in studenten]

@@ -5,10 +5,31 @@ lazy from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict
 
+from student.repository.student_suchparameter import StudentSuchparameter
 lazy from student.entity import Gender, StudyProgram
 lazy from student.service.student_dto import StudentDTO
 
-__all__ = ["StudentResponseModel"]
+__all__ = ["StudentFindModel", "StudentResponseModel"]
+
+
+class StudentFindModel(BaseModel):
+    """Suchparameter für die Studentensuche."""
+
+    last_name: str | None = None
+    email: str | None = None
+    study_program: StudyProgram | None = None
+
+    # Keine weiteren Attribute erlaubt
+    # unveraenderlich
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    def to_suchparameter(self) -> StudentSuchparameter:
+        """Erzeugt Suchparameter für den Service."""
+        return StudentSuchparameter(
+            email=self.email,
+            last_name=self.last_name,
+            study_program=self.study_program,
+        )
 
 
 class AddressResponseModel(BaseModel):

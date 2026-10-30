@@ -7,6 +7,7 @@ from loguru import logger
 from student.repository import Session, StudentRepository
 from student.service.exceptions import NotFoundError
 from student.service.student_dto import StudentDTO
+lazy from student.repository.student_suchparameter import StudentSuchparameter
 
 __all__ = ["StudentService"]
 
@@ -39,3 +40,32 @@ class StudentService:
 
         logger.debug("{}", student_dto)
         return student_dto
+
+    def find(
+        self,
+        suchparameter: StudentSuchparameter,
+    ) -> tuple[StudentDTO, ...]:
+        """Suche mit Suchparameter.
+
+        :param suchparameter: Suchparameter für die Studentensuche
+        :return: Tupel der gefundenen Studenten als DTOs
+        :rtype: tuple[StudentDTO, ...]
+        :raises NotFoundError: Falls keine Studenten gefunden wurden
+        """
+        logger.debug("{}", suchparameter)
+
+        with Session() as session:
+            studenten: Final = self.repo.find(
+                suchparameter=suchparameter,
+                session=session,
+            )
+            if len(studenten) == 0:
+                raise NotFoundError(suchparameter=suchparameter)
+
+            studenten_dto: Final = tuple(
+                StudentDTO.from_student(student) for student in studenten
+            )
+            session.commit()
+
+        logger.debug("{}", studenten_dto)
+        return studenten_dto
