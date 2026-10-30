@@ -58,8 +58,7 @@ jobs:
         run: uv sync --locked
 
       - name: Run tests
-        run: uv run --no-sync pytest
-
+        run: uv run --no-sync pytest tests/unit
   audit:
     name: Audit
     runs-on: ubuntu-latest

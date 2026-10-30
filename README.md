@@ -136,3 +136,32 @@ uv run mkdocs build
 ```
 
 Die Ausgabe liegt in `site/`. Dieser Ordner wird von Git ignoriert.
+
+## Integrationstests
+
+Die Integrationstests senden HTTP-Anfragen an den laufenden Student-Server.
+PostgreSQL muss gemäß `extras/compose/postgres/ReadMe.md` eingerichtet sein.
+
+Im Hauptverzeichnis mit PowerShell ausführen:
+
+```powershell
+docker compose -f extras/compose/postgres/compose.yml up -d --wait
+docker compose up -d --build
+$env:STUDENT_TEST_DB_PASSWORD = 'p'
+uv run pytest tests/integration -v
+```
+
+Vor jedem Testlauf wird das lokale Schema `student` gelöscht, neu angelegt
+und mit den CSV-Beispieldaten geladen. Vorhandene Daten in diesem Schema
+werden ersetzt. Diese Tests nur gegen die lokale Übungsdatenbank ausführen.
+
+Der Testclient prüft das HTTPS-Zertifikat anhand der Datei
+`src/student/config/resources/tls/certificate.crt`.
+
+Nur Unit-Tests ausführen, ohne laufenden Server oder Datenbank:
+
+```powershell
+uv run pytest tests/unit
+```
+
+Die CI führt ausschließlich die Unit-Tests aus.
