@@ -187,3 +187,23 @@ uv run pytest tests/unit
 ```
 
 Die CI führt ausschließlich die Unit-Tests aus.
+
+## Lasttest
+
+Der Lasttest mit Locust fordert einen Token als `admin` an und sendet danach
+GET-Requests mit ID und Suchparametern. Der Server muss laufen, siehe
+[Running the server](#running-the-server).
+
+```powershell
+uv run locust -f tests/loadtest/locustfile.py
+```
+
+Die Weboberfläche ist unter <http://localhost:8089> erreichbar. Ohne Weboberfläche,
+z.B. mit 10 Benutzern für 30 Sekunden:
+
+```powershell
+uv run locust -f tests/loadtest/locustfile.py --headless -u 10 -r 5 -t 30s
+```
+
+Für aussagekräftige Antwortzeiten in `app.toml` die mit
+`locust: auskommentieren` markierten Einträge auskommentieren.
