@@ -40,6 +40,10 @@ class UsernameExistsError(Exception):
         self.username = username
 
 
+class ForbiddenError(Exception):
+    """Exception, falls der Benutzer die Daten nicht lesen darf."""
+
+
 class NotFoundError(Exception):
     """Exception, falls kein Student gefunden wurde."""
 

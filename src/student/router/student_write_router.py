@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from loguru import logger
 
 from student.router.dependencies import get_write_service
+from student.security import Role, RolesRequired
 from student.service.exceptions import (
     EmailExistsError,
     MatriculationNumberExistsError,
@@ -19,7 +20,10 @@ lazy from student.service.student_write_service import StudentWriteService
 __all__ = ["student_write_router"]
 
 
-student_write_router: Final = APIRouter(tags=["Schreiben"])
+student_write_router: Final = APIRouter(
+    tags=["Schreiben"],
+    dependencies=[Depends(RolesRequired(Role.ADMIN))],
+)
 
 
 @student_write_router.post("", status_code=status.HTTP_201_CREATED)

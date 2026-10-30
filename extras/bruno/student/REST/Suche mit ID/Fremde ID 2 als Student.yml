@@ -1,0 +1,47 @@
+---
+info:
+  name: Fremde ID 2 als Student
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{restUrl}}/:id"
+  headers:
+    - name: Accept
+      value: application/json
+  params:
+    - name: id
+      value: "2"
+      type: path
+  auth:
+    type: oauth2
+    flow: resource_owner_password_credentials
+    accessTokenUrl: "{{oidcTokenUrl}}"
+    credentials:
+      clientId: "{{clientId}}"
+      clientSecret: "{{clientSecret}}"
+      placement: body
+    resourceOwner:
+      username: mamu1011
+      password: p
+    tokenConfig:
+      id: mamu1011
+      placement:
+        header: Bearer
+      source: access_token
+    settings:
+      autoFetchToken: true
+      autoRefreshToken: false
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "403"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
