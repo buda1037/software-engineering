@@ -6,7 +6,7 @@ info:
 
 http:
   method: GET
-  url: "{{restUrl}}"
+  url: "{{restUrl}}?study_program=UNGUELTIG"
   params:
     - name: study_program
       value: UNGUELTIG
@@ -24,3 +24,4 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+  forwardAuthorizationHeader: true
