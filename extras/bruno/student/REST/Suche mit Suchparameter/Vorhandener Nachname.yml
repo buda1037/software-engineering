@@ -1,0 +1,26 @@
+---
+info:
+  name: Vorhandener Nachname
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{restUrl}}"
+  params:
+    - name: last_name
+      value: Mustermann
+      type: query
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
