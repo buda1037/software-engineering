@@ -1,0 +1,63 @@
+---
+info:
+  name: Neuer Student mit ungueltigen Daten
+  type: graphql
+  seq: 2
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  body:
+    query: |-
+      mutation ($student: StudentInput!) {
+        create(student: $student) {
+          id
+        }
+      }
+    variables: |-
+      {
+        "student": {
+          "matriculationNumber": "12345",
+          "username": "jado1012",
+          "firstName": "",
+          "lastName": "Doe",
+          "gender": "FEMALE",
+          "dateOfBirth": "2005-03-14",
+          "email": "jane.doe",
+          "studyProgram": "DATA_SCIENCE",
+          "enrollmentDate": "2025-10-01",
+          "address": {
+            "street": "Moltkestraße",
+            "houseNumber": "30",
+            "postalCode": "7613",
+            "city": "Karlsruhe"
+          },
+          "examResults": [
+            {
+              "module": "Statistik",
+              "grade": "6.0",
+              "ects": 6,
+              "examDate": "2026-02-10"
+            }
+          ]
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.data
+      operator: isNull
+    - expression: res.body.errors[0].extensions.validation_errors
+      operator: isArray
+    - expression: res.body.errors[0].extensions.validation_errors
+      operator: isNotEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

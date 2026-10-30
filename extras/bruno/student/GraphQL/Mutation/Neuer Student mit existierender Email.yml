@@ -1,0 +1,60 @@
+---
+info:
+  name: Neuer Student mit existierender Email
+  type: graphql
+  seq: 3
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  body:
+    query: |-
+      mutation ($student: StudentInput!) {
+        create(student: $student) {
+          id
+        }
+      }
+    variables: |-
+      {
+        "student": {
+          "matriculationNumber": "777777",
+          "username": "jado1012",
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "gender": "FEMALE",
+          "dateOfBirth": "2005-03-14",
+          "email": "max.mustermann@example.com",
+          "studyProgram": "DATA_SCIENCE",
+          "enrollmentDate": "2025-10-01",
+          "address": {
+            "street": "Moltkestraße",
+            "houseNumber": "30",
+            "postalCode": "76133",
+            "city": "Karlsruhe"
+          },
+          "examResults": [
+            {
+              "module": "Statistik",
+              "grade": "1.7",
+              "ects": 6,
+              "examDate": "2026-02-10"
+            }
+          ]
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.errors[0].message
+      operator: contains
+      value: max.mustermann@example.com
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

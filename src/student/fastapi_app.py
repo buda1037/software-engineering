@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from starlette.routing import Route
 
 from student.config.config import logger
+from student.graphql_api import graphql_router
 from student.router import hello_router, student_router, student_write_router
 from student.security import AuthorizationError, LoginError, auth_router
 
@@ -52,6 +53,12 @@ app.include_router(student_router, prefix="/rest")
 app.include_router(hello_router, prefix="/hello")
 app.include_router(student_write_router, prefix="/rest")
 app.include_router(auth_router, prefix="/auth")
+
+
+# --------------------------------------------------------------------------------------
+# G r a p h Q L
+# --------------------------------------------------------------------------------------
+app.include_router(graphql_router, prefix="/graphql")
 
 
 # --------------------------------------------------------------------------------------

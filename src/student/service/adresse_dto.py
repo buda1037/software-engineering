@@ -8,8 +8,8 @@ from student.service.exceptions import AddressRequiredError
 lazy from student.entity import Address
 
 
-@dataclass(eq=False, slots=True, kw_only=True)
 @strawberry.type(name="Address")
+@dataclass(eq=False, slots=True, kw_only=True)
 class AddressDTO:
     """DTO-Klasse für die Adresse, insbesondere ohne Decorators für SQLAlchemy."""
 

@@ -1,0 +1,12 @@
+---
+info:
+  name: Query
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit
+
+docs:
+  content: Studentendaten über GraphQL lesen.
+  type: text/markdown
