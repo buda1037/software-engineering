@@ -1,33 +1,24 @@
 """Pydantic-Modell für die Daten eines neuen Studenten."""
 
 from typing import Annotated
-lazy from datetime import date
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, PastDate
+from pydantic import Field
 
-from student.entity import Gender, Student, StudyProgram
+from student.entity import Student
+from student.router.student_update_model import StudentUpdateModel
 lazy from student.router.address_model import AddressModel
 lazy from student.router.exam_result_model import ExamResultModel
 
 __all__ = ["StudentModel"]
 
 
-class StudentModel(BaseModel):
+class StudentModel(StudentUpdateModel):
     """Pydantic-Modell für die Daten eines neuen Studenten."""
 
     matriculation_number: Annotated[str, Field(pattern=r"^\d{6}$")]
     username: Annotated[str, Field(min_length=1)] | None = None
-    first_name: Annotated[str, Field(min_length=1)]
-    last_name: Annotated[str, Field(min_length=1)]
-    gender: Gender | None = None
-    date_of_birth: PastDate
-    email: EmailStr
-    study_program: StudyProgram
-    enrollment_date: date
     address: AddressModel
-    exam_results: list[ExamResultModel] = []
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    exam_results: Annotated[list[ExamResultModel], Field(default_factory=list)]
 
     def to_student(self) -> Student:
         """Konvertierung in ein Entity-Objekt für SQLAlchemy.

@@ -9,10 +9,12 @@ from student.repository import Session, StudentRepository
 from student.service.exceptions import (
     EmailExistsError,
     MatriculationNumberExistsError,
+    NotFoundError,
     UsernameExistsError,
 )
 from student.service.student_dto import StudentDTO
 lazy from student.entity import Student
+lazy from student.service.student_update import StudentUpdate
 
 __all__ = ["StudentWriteService"]
 
@@ -45,6 +47,38 @@ class StudentWriteService:
 
         logger.debug("{}", student_dto)
         return student_dto
+
+    def update(self, student_id: int, update: StudentUpdate) -> None:
+        """Die Daten eines Studenten ohne Adresse und Prüfungsergebnisse ändern.
+
+        :param student_id: ID des zu ändernden Studenten
+        :param update: Die geänderten Daten
+        :raises NotFoundError: Falls kein Student zur ID existiert
+        :raises EmailExistsError: Falls die neue Emailadresse bereits existiert
+        """
+        logger.debug("student_id={}, {}", student_id, update)
+
+        with Session() as session:
+            if (
+                student := self.repo.find_by_id(student_id=student_id, session=session)
+            ) is None:
+                raise NotFoundError(student_id=student_id)
+            if update.email != student.email and self.repo.exists_email(
+                email=update.email,
+                session=session,
+            ):
+                raise EmailExistsError(email=update.email)
+
+            student.first_name = update.first_name
+            student.last_name = update.last_name
+            student.gender = update.gender
+            student.date_of_birth = update.date_of_birth
+            student.email = update.email
+            student.study_program = update.study_program
+            student.enrollment_date = update.enrollment_date
+            session.commit()
+
+        logger.debug("student_id={} geaendert", student_id)
 
     def delete_by_id(self, student_id: int) -> None:
         """Einen Studenten anhand seiner ID löschen.
