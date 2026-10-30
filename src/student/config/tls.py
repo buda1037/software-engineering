@@ -1,4 +1,4 @@
-"""Configure the TLS certificate and private key resources."""
+"""Konfiguration für Zertifikat und privaten Schlüssel von TLS."""
 
 from importlib.resources import files
 from typing import Final

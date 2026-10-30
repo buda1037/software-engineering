@@ -1,4 +1,4 @@
-"""Entity class for the address of a student."""
+"""Entity-Klasse für die Adresse eines Studenten."""
 
 from sqlalchemy import ForeignKey, Identity
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -10,7 +10,7 @@ __all__ = ["Address"]
 
 
 class Address(Base, kw_only=True, eq=False):
-    """Entity class for the address of a student."""
+    """Entity-Klasse für die Adresse eines Studenten."""
 
     __tablename__ = "address"
 

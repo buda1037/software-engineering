@@ -1,4 +1,4 @@
-"""Student REST service."""
+"""FastAPI-Anwendung mit REST- und GraphQL-Schnittstelle."""
 
 from time import time
 from typing import Final

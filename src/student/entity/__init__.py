@@ -1,4 +1,4 @@
-"""Entity classes of the student service."""
+"""Entity-Klassen der Anwendung."""
 
 from student.entity.address import Address
 from student.entity.base import Base

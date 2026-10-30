@@ -1,4 +1,4 @@
-"""Enum for the study program of a student."""
+"""Enum für den Studiengang eines Studenten."""
 
 from enum import StrEnum
 
@@ -9,7 +9,7 @@ __all__ = ["StudyProgram"]
 
 @strawberry.enum
 class StudyProgram(StrEnum):
-    """Study program of a student."""
+    """Studiengang eines Studenten."""
 
     WIRTSCHAFTSINFORMATIK = "WIRTSCHAFTSINFORMATIK"
     INTERNATIONALES_IT_BUSINESS = "INTERNATIONALES_IT_BUSINESS"

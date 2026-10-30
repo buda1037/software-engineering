@@ -1,4 +1,4 @@
-"""Entity class for an exam result of a student."""
+"""Entity-Klasse für ein Prüfungsergebnis eines Studenten."""
 
 lazy from datetime import date
 lazy from decimal import Decimal
@@ -13,7 +13,7 @@ __all__ = ["ExamResult"]
 
 
 class ExamResult(Base, kw_only=True, eq=False):
-    """Entity class for an exam result of a student."""
+    """Entity-Klasse für ein Prüfungsergebnis eines Studenten."""
 
     __tablename__ = "exam_result"
 

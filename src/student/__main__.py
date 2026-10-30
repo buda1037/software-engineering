@@ -1,4 +1,4 @@
-"""Enables `python -m student`."""
+"""Ermöglicht den Start mit `python -m student`."""
 
 from student.asgi_server import run
 

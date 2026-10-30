@@ -1,4 +1,4 @@
-"""Unit tests for the FastAPI application."""
+"""Unit-Tests für die FastAPI-Anwendung."""
 
 import pytest
 from fastapi import status

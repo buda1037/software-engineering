@@ -1,1 +1,1 @@
-"""Services and DTOs of the student application."""
+"""Services und DTOs der Anwendung."""
