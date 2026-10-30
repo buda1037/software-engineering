@@ -1,0 +1,38 @@
+---
+opencollection: 1.0.0
+
+info:
+  name: student
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  variables:
+    - name: keycloakUrl
+      value: http://localhost:8880
+    - name: realm
+      value: student
+    - name: realmUrl
+      value: "{{keycloakUrl}}/realms/{{realm}}"
+    - name: oidcUrl
+      value: "{{realmUrl}}/protocol/openid-connect"
+    - name: oidcAuthUrl
+      value: "{{oidcUrl}}/auth"
+    - name: oidcTokenUrl
+      value: "{{oidcUrl}}/token"
+    - name: authUrl
+      value: "{{baseUrl}}/auth"
+    - name: tokenUrl
+      value: "{{authUrl}}/token"
+
+bundled: false
+extensions: {}

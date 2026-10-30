@@ -1,0 +1,15 @@
+---
+name: student
+variables:
+  - name: baseUrl
+    value: https://localhost:8000
+  - name: clientId
+    value: student-client
+  - name: username
+    value: admin
+  - secret: true
+    name: clientSecret
+    description: ""
+  - secret: true
+    name: password
+    description: ""
