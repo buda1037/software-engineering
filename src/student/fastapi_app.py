@@ -8,7 +8,7 @@ from fastapi import FastAPI, Request, Response
 from starlette.routing import Route
 
 from student.config.config import logger
-from student.router import hello_router, student_router
+from student.router import hello_router, student_router, student_write_router
 
 __all__ = ["app"]
 
@@ -48,3 +48,4 @@ async def log_request(
 # --------------------------------------------------------------------------------------
 app.include_router(student_router, prefix="/rest")
 app.include_router(hello_router, prefix="/hello")
+app.include_router(student_write_router, prefix="/rest")
