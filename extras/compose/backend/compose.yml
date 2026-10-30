@@ -1,0 +1,7 @@
+---
+# PostgreSQL und Keycloak für die Anwendung
+name: student
+
+include:
+  - path: ../postgres/compose.yml
+  - path: ../keycloak/compose.yml

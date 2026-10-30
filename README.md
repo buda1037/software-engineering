@@ -19,26 +19,18 @@ uv sync
 
 ## Running the server
 
-PostgreSQL muss zuerst laufen. Die einmalige Einrichtung steht in
-[extras/compose/postgres/ReadMe.md](extras/compose/postgres/ReadMe.md).
+Die Anwendung braucht PostgreSQL und Keycloak. Die einmalige Einrichtung steht in
+[extras/compose/postgres/ReadMe.md](extras/compose/postgres/ReadMe.md) und
+[extras/compose/keycloak/ReadMe.md](extras/compose/keycloak/ReadMe.md),
+einschließlich des Client-Geheimnisses `KEYCLOAK_CLIENT_SECRET` in `.env`.
+
+Wähle genau eine Variante, weil beide Port 8000 verwenden.
+
+Lokal: `extras/compose/backend` startet PostgreSQL und Keycloak, danach die
+Anwendung mit uv:
 
 ```powershell
-docker compose -f extras/compose/postgres/compose.yml up -d --wait
-```
-
-Keycloak muss ebenfalls laufen. Die einmalige Einrichtung und das
-Client-Geheimnis `KEYCLOAK_CLIENT_SECRET` in `.env` stehen in
-[extras/compose/keycloak/ReadMe.md](extras/compose/keycloak/ReadMe.md).
-
-```powershell
-docker compose -f extras/compose/keycloak/compose.yml up -d
-```
-
-Danach wähle genau eine Variante, weil beide Port 8000 verwenden.
-
-Lokal:
-
-```powershell
+docker compose -f extras/compose/backend/compose.yml up -d --wait
 uv run student
 ```
 
@@ -48,10 +40,18 @@ Falls Windows den Befehl blockiert:
 uv run --python 3.15.2 python -m student
 ```
 
-Mit Docker Compose:
+Mit Docker Compose: `extras/compose/student` baut das Image und startet die
+Anwendung, sobald PostgreSQL und Keycloak bereit sind:
 
 ```powershell
-docker compose up --build
+docker compose -f extras/compose/student/compose.yml up -d --build --wait
+```
+
+Beide Varianten verwenden das Compose-Projekt `student`.
+Alle Container stoppen:
+
+```powershell
+docker compose -f extras/compose/student/compose.yml down
 ```
 
 Die API ist beispielsweise unter <https://localhost:8000/rest/1> erreichbar.
@@ -161,15 +161,14 @@ Die Ausgabe liegt in `site/`. Dieser Ordner wird von Git ignoriert.
 
 ## Integrationstests
 
-Die Integrationstests senden HTTP-Anfragen an den laufenden Student-Server.
-PostgreSQL muss gemäß `extras/compose/postgres/ReadMe.md` eingerichtet sein.
+Die Integrationstests senden HTTP-Anfragen an den laufenden Student-Server,
+hier in Docker Compose. PostgreSQL und Keycloak müssen eingerichtet sein,
+siehe [Running the server](#running-the-server).
 
 Im Hauptverzeichnis mit PowerShell ausführen:
 
 ```powershell
-docker compose -f extras/compose/postgres/compose.yml up -d --wait
-docker compose -f extras/compose/keycloak/compose.yml up -d
-docker compose up -d --build
+docker compose -f extras/compose/student/compose.yml up -d --build --wait
 $env:STUDENT_TEST_DB_PASSWORD = 'p'
 uv run pytest tests/integration -v
 ```
