@@ -1,0 +1,22 @@
+---
+info:
+  name: Unbekannte ID 999999 löschen
+  type: http
+  seq: 2
+
+http:
+  method: DELETE
+  url: "{{restUrl}}/999999"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "204"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
