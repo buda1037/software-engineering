@@ -6,6 +6,7 @@ from fastapi import Depends
 
 from student.repository.student_repository import StudentRepository
 from student.service.student_service import StudentService
+from student.service.student_write_service import StudentWriteService
 
 
 def get_repository() -> StudentRepository:
@@ -22,3 +23,10 @@ def get_service(
 ) -> StudentService:
     """Factory-Funktion für StudentService."""
     return StudentService(repo=repo)
+
+
+def get_write_service(
+    repo: Annotated[StudentRepository, Depends(get_repository)],
+) -> StudentWriteService:
+    """Factory-Funktion für StudentWriteService."""
+    return StudentWriteService(repo=repo)
