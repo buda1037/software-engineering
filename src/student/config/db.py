@@ -40,6 +40,7 @@ db_url: Final[URL] = URL.create(
 """DB-URL für SQLAlchemy."""
 logger.debug("db: db_url={}", db_url)
 
-db_connect_args: Final[dict[str, str]] = {}
-"""Zusätzliche Verbindungsparameter; TLS folgt in einem späteren Schritt."""
+db_connect_args: Final[dict[str, int | None]] = {"prepare_threshold": None}
+"""Zusätzliche Verbindungsparameter: keine Prepared Statements, damit die Tabellen
+bei laufendem Server neu angelegt werden können, z.B. durch die Integrationstests."""
 logger.debug("db: db_connect_args={}", db_connect_args)

@@ -29,7 +29,7 @@ def test_get_by_id_not_found(client: httpx.Client) -> None:
     [
         ({}, [1, 2]),
         ({"last_name": "Mustermann"}, [1]),
-        ({"email": "erika.musterfrau@example.invalid"}, [2]),
+        ({"email": "erika.musterfrau@example.com"}, [2]),
         ({"study_program": "DATA_SCIENCE"}, [2]),
         (
             {
@@ -57,7 +57,7 @@ def test_search(
     "params",
     [
         {"last_name": "GibtEsNicht9999"},
-        {"email": "unbekannt@example.invalid"},
+        {"email": "unbekannt@example.com"},
         {"last_name": "Mustermann", "study_program": "DATA_SCIENCE"},
     ],
 )

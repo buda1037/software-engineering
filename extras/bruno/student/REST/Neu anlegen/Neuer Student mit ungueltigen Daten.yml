@@ -1,0 +1,48 @@
+---
+info:
+  name: Neuer Student mit ungueltigen Daten
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{restUrl}}"
+  body:
+    type: json
+    data: |-
+      {
+        "matriculation_number": "12345",
+        "first_name": "",
+        "last_name": "Doe",
+        "date_of_birth": "2999-01-01",
+        "email": "jane.doe",
+        "study_program": "INFORMATIK",
+        "enrollment_date": "2025-10-01",
+        "address": {
+          "street": "Moltkestraße",
+          "house_number": "30",
+          "postal_code": "7613",
+          "city": "Karlsruhe"
+        },
+        "exam_results": [
+          {
+            "module": "Statistik",
+            "grade": 6.0,
+            "ects": 0,
+            "exam_date": "2026-02-10"
+          }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
