@@ -1,0 +1,8 @@
+---
+info:
+  name: Suche mit ID
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit
