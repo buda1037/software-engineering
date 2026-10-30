@@ -1,0 +1,41 @@
+---
+info:
+  name: Student 1 mit existierender Email ändern
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  params:
+    - name: id
+      value: "1"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "first_name": "Max",
+        "last_name": "Mustermann",
+        "gender": "MALE",
+        "date_of_birth": "2004-05-17",
+        "email": "erika.musterfrau@example.com",
+        "study_program": "WIRTSCHAFTSINFORMATIK",
+        "enrollment_date": "2024-10-01"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.body.detail
+      operator: contains
+      value: erika.musterfrau@example.com
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
