@@ -55,6 +55,7 @@ dev = [
     "pytest>=9.1.1,<10.0.0",
     "httpx2>=2.16.0,<3.0.0", # Required by starlette.testclient
     "httpx>=0.28.1,<0.29.0",
+    "locust>=2.47.0,<3.0.0",
 ]
 doc = [
     "mkdocs-material>=9.8.0,<10.0.0",
