@@ -78,3 +78,12 @@ def test_search_invalid_study_program(client: httpx.Client) -> None:
 
     # Assert
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+
+
+def test_delete_unknown_id(client: httpx.Client) -> None:
+    # Act
+    response = client.delete("/rest/999999")
+
+    # Assert
+    assert response.status_code == HTTPStatus.NO_CONTENT
+    assert response.content == b""
