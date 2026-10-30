@@ -80,3 +80,22 @@ class StudentRepository:
         studenten: Final = session.scalars(statement).unique().all()
         logger.debug("{}", studenten)
         return studenten
+
+    def delete_by_id(self, student_id: int, session: Session) -> None:
+        """Lösche die Daten zu einem Studenten.
+
+        :param student_id: Die ID des zu löschenden Studenten
+        :param session: Session für SQLAlchemy
+        """
+        logger.debug("student_id={}", student_id)
+
+        if (
+            student := self.find_by_id(
+                student_id=student_id,
+                session=session,
+            )
+        ) is None:
+            return
+
+        session.delete(student)
+        logger.debug("ok")
