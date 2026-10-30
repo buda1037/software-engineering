@@ -1,27 +1,34 @@
 """Schema für GraphQL durch Strawberry."""
 
+from dataclasses import asdict
 from typing import Annotated, Final
 
 import strawberry
 from fastapi import Request
 from graphql import GraphQLError
 from loguru import logger
+from strawberry.extensions import PydanticErrorExtension
 from strawberry.fastapi import GraphQLRouter
 lazy from strawberry.types import Info
 
+from student.graphql_api.graphql_types import CreatePayload
 from student.repository import StudentRepository
 from student.repository.student_suchparameter import StudentSuchparameter
+from student.router.student_model import StudentModel
 from student.security import AuthorizationError, Role, User
 from student.security.dependencies import get_token_service
 from student.service.exceptions import ForbiddenError, NotFoundError
 from student.service.student_service import StudentService
-lazy from student.graphql_api.graphql_types import Suchparameter
+from student.service.student_write_service import StudentWriteService
+lazy from student.graphql_api.graphql_types import StudentInput, Suchparameter
 lazy from student.service.student_dto import StudentDTO
 
 __all__ = ["graphql_router"]
 
 
-_service: Final = StudentService(repo=StudentRepository())
+_repo: Final = StudentRepository()
+_service: Final = StudentService(repo=_repo)
+_write_service: Final = StudentWriteService(repo=_repo)
 _token_service: Final = get_token_service()
 
 
@@ -103,7 +110,41 @@ class Query:
             return []
 
 
-schema: Final = strawberry.Schema(query=Query)
+@strawberry.type
+class Mutation:
+    """Mutations, um Studentendaten anzulegen."""
+
+    @strawberry.mutation
+    def create(
+        self,
+        student_input: Annotated[StudentInput, strawberry.argument(name="student")],
+        info: Info,
+    ) -> CreatePayload:
+        """Einen neuen Studenten anlegen.
+
+        :param student_input: Daten des neuen Studenten
+        :param info: Kontext mit dem Request
+        :return: ID des neuen Studenten
+        :rtype: CreatePayload
+        :raises GraphQLError: Falls der Benutzer nicht admin ist
+        :raises ValidationError: Falls die Daten ungültig sind
+        :raises EmailExistsError: Falls die Emailadresse bereits existiert
+        :raises MatriculationNumberExistsError: Falls die Matrikelnummer bereits
+            existiert
+        :raises UsernameExistsError: Falls der Benutzername bereits existiert
+        """
+        logger.debug("student_input={}", student_input)
+        _get_user(info, Role.ADMIN)
+        student_model: Final = StudentModel.model_validate(asdict(student_input))
+        student_dto: Final = _write_service.create(student=student_model.to_student())
+        return CreatePayload(id=student_dto.id)
+
+
+schema: Final = strawberry.Schema(
+    query=Query,
+    mutation=Mutation,
+    extensions=[PydanticErrorExtension],
+)
 
 type Context = dict[str, Request]
 

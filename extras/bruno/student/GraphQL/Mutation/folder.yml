@@ -1,0 +1,12 @@
+---
+info:
+  name: Mutation
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit
+
+docs:
+  content: Einen neuen Studenten über GraphQL anlegen.
+  type: text/markdown

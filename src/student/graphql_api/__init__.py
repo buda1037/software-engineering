@@ -1,6 +1,21 @@
 """GraphQL-Schnittstelle."""
 
-from student.graphql_api.graphql_types import Suchparameter
-from student.graphql_api.schema import Query, graphql_router
+from student.graphql_api.graphql_types import (
+    AddressInput,
+    CreatePayload,
+    ExamResultInput,
+    StudentInput,
+    Suchparameter,
+)
+from student.graphql_api.schema import Mutation, Query, graphql_router
 
-__all__ = ["Query", "Suchparameter", "graphql_router"]
+__all__ = [
+    "AddressInput",
+    "CreatePayload",
+    "ExamResultInput",
+    "Mutation",
+    "Query",
+    "StudentInput",
+    "Suchparameter",
+    "graphql_router",
+]
