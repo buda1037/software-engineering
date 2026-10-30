@@ -1,6 +1,6 @@
 [project]
 name = "software-engineering"
-version = "0.2.0"
+version = "1.0.0"
 description = "Results of the Software Engineering module at HKA"
 readme = "README.md"
 authors = [
