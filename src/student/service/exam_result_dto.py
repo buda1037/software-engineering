@@ -9,8 +9,8 @@ import strawberry
 lazy from student.entity import ExamResult
 
 
-@dataclass(eq=False, slots=True, kw_only=True)
 @strawberry.type(name="ExamResult")
+@dataclass(eq=False, slots=True, kw_only=True)
 class ExamResultDTO:
     """DTO-Klasse für die Daten eines Prüfungsergebnisses."""
 

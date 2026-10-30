@@ -1,0 +1,48 @@
+---
+info:
+  name: Student 1 ohne Token
+  type: graphql
+  seq: 5
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  body:
+    query: |-
+      query ($id: ID!) {
+        student(id: $id) {
+          id
+          matriculationNumber
+          firstName
+          lastName
+          email
+          studyProgram
+          address {
+            postalCode
+            city
+          }
+          examResults {
+            module
+            grade
+          }
+        }
+      }
+    variables: |-
+      {
+        "id": "1"
+      }
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.errors[0].message
+      operator: eq
+      value: Unauthorized
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

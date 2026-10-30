@@ -63,6 +63,10 @@ Die REST-Endpunkte erfordern einen Token im Header
 `GET /rest/{id}` ist für `admin` und den eigenen Studenten erlaubt,
 alle anderen Endpunkte nur für `admin`.
 
+Die GraphQL-Schnittstelle ist unter <https://localhost:8000/graphql> erreichbar,
+im Browser mit GraphiQL. Die Queries `student(id)` und `students(suchparameter)`
+sind wie die REST-Endpunkte geschützt.
+
 In Bruno in der Umgebung `student` die geheimen Variablen `clientSecret`
 (Wert aus `.env`) und `password` (`p`) setzen.
 

@@ -1,0 +1,50 @@
+---
+info:
+  name: Suche ohne Treffer
+  type: graphql
+  seq: 4
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  body:
+    query: |-
+      query ($suchparameter: Suchparameter) {
+        students(suchparameter: $suchparameter) {
+          id
+          matriculationNumber
+          firstName
+          lastName
+          email
+          studyProgram
+          address {
+            postalCode
+            city
+          }
+          examResults {
+            module
+            grade
+          }
+        }
+      }
+    variables: |-
+      {
+        "suchparameter": {
+          "lastName": "Unbekannt"
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.data.students
+      operator: isEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

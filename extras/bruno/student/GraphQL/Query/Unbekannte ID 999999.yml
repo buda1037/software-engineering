@@ -1,0 +1,48 @@
+---
+info:
+  name: Unbekannte ID 999999
+  type: graphql
+  seq: 2
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  body:
+    query: |-
+      query ($id: ID!) {
+        student(id: $id) {
+          id
+          matriculationNumber
+          firstName
+          lastName
+          email
+          studyProgram
+          address {
+            postalCode
+            city
+          }
+          examResults {
+            module
+            grade
+          }
+        }
+      }
+    variables: |-
+      {
+        "id": "999999"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.data.student
+      operator: isNull
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

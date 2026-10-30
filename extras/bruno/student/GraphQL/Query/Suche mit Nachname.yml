@@ -1,0 +1,52 @@
+---
+info:
+  name: Suche mit Nachname
+  type: graphql
+  seq: 3
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  body:
+    query: |-
+      query ($suchparameter: Suchparameter) {
+        students(suchparameter: $suchparameter) {
+          id
+          matriculationNumber
+          firstName
+          lastName
+          email
+          studyProgram
+          address {
+            postalCode
+            city
+          }
+          examResults {
+            module
+            grade
+          }
+        }
+      }
+    variables: |-
+      {
+        "suchparameter": {
+          "lastName": "muster"
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.data.students
+      operator: isArray
+    - expression: res.body.data.students
+      operator: isNotEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

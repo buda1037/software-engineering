@@ -12,8 +12,8 @@ lazy from student.entity import Gender, Student, StudyProgram
 __all__ = ["StudentDTO"]
 
 
-@dataclass(eq=False, slots=True, kw_only=True)
 @strawberry.type(name="Student")
+@dataclass(eq=False, slots=True, kw_only=True)
 class StudentDTO:
     """DTO-Klasse für gelesene oder gespeicherte Studentendaten."""
 
