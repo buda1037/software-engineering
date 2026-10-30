@@ -5,7 +5,7 @@ lazy from datetime import date
 
 import strawberry
 
-from student.service.adresse_dto import AddressDTO
+from student.service.address_dto import AddressDTO
 from student.service.exam_result_dto import ExamResultDTO
 lazy from student.entity import Gender, Student, StudyProgram
 

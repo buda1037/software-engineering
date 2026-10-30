@@ -11,13 +11,13 @@ __all__ = [
     "AddressInput",
     "CreatePayload",
     "ExamResultInput",
+    "SearchParameters",
     "StudentInput",
-    "Suchparameter",
 ]
 
 
 @strawberry.input
-class Suchparameter:
+class SearchParameters:
     """Suchparameter für die Suche nach Studenten."""
 
     last_name: str | None = None

@@ -8,7 +8,7 @@ from student.repository import Session, StudentRepository
 from student.security.role import Role
 from student.service.exceptions import ForbiddenError, NotFoundError
 from student.service.student_dto import StudentDTO
-lazy from student.repository.student_suchparameter import StudentSuchparameter
+lazy from student.repository.student_search_parameters import StudentSearchParameters
 lazy from student.security.user import User
 
 __all__ = ["StudentService"]
@@ -55,29 +55,29 @@ class StudentService:
 
     def find(
         self,
-        suchparameter: StudentSuchparameter,
+        search_parameters: StudentSearchParameters,
     ) -> tuple[StudentDTO, ...]:
         """Suche mit Suchparameter.
 
-        :param suchparameter: Suchparameter für die Studentensuche
+        :param search_parameters: Suchparameter für die Studentensuche
         :return: Tupel der gefundenen Studenten als DTOs
         :rtype: tuple[StudentDTO, ...]
         :raises NotFoundError: Falls keine Studenten gefunden wurden
         """
-        logger.debug("{}", suchparameter)
+        logger.debug("{}", search_parameters)
 
         with Session() as session:
-            studenten: Final = self.repo.find(
-                suchparameter=suchparameter,
+            students: Final = self.repo.find(
+                search_parameters=search_parameters,
                 session=session,
             )
-            if len(studenten) == 0:
-                raise NotFoundError(suchparameter=suchparameter)
+            if len(students) == 0:
+                raise NotFoundError(search_parameters=search_parameters)
 
-            studenten_dto: Final = tuple(
-                StudentDTO.from_student(student) for student in studenten
+            student_dtos: Final = tuple(
+                StudentDTO.from_student(student) for student in students
             )
             session.commit()
 
-        logger.debug("{}", studenten_dto)
-        return studenten_dto
+        logger.debug("{}", student_dtos)
+        return student_dtos

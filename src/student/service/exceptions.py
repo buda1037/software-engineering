@@ -1,6 +1,6 @@
 """Exceptions für die Geschäftslogik."""
 
-lazy from student.repository.student_suchparameter import StudentSuchparameter
+lazy from student.repository.student_search_parameters import StudentSearchParameters
 
 
 class AddressRequiredError(RuntimeError):
@@ -51,13 +51,13 @@ class NotFoundError(Exception):
         self,
         student_id: int | None = None,
         *,
-        suchparameter: StudentSuchparameter | None = None,
+        search_parameters: StudentSearchParameters | None = None,
     ) -> None:
         """Initialisierung mit der Student-ID oder Suchparametern.
 
         :param student_id: Student-ID, zu der nichts gefunden wurde
-        :param suchparameter: Suchparameter, zu denen nichts gefunden wurde
+        :param search_parameters: Suchparameter, zu denen nichts gefunden wurde
         """
         super().__init__("Not Found")
         self.student_id = student_id
-        self.suchparameter = suchparameter
+        self.search_parameters = search_parameters

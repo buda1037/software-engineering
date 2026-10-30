@@ -9,8 +9,8 @@ graphql:
   url: "{{graphqlUrl}}"
   body:
     query: |-
-      query ($suchparameter: Suchparameter) {
-        students(suchparameter: $suchparameter) {
+      query ($searchParameters: SearchParameters) {
+        students(searchParameters: $searchParameters) {
           id
           matriculationNumber
           firstName
@@ -29,7 +29,7 @@ graphql:
       }
     variables: |-
       {
-        "suchparameter": {
+        "searchParameters": {
           "lastName": "muster"
         }
       }

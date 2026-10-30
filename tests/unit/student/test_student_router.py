@@ -13,11 +13,11 @@ from fastapi.testclient import TestClient
 
 from student.entity import StudyProgram
 from student.fastapi_app import app
-from student.repository.student_suchparameter import StudentSuchparameter
+from student.repository.student_search_parameters import StudentSearchParameters
 from student.router.dependencies import get_service
 from student.security import Role, TokenService, User
 from student.security.dependencies import get_token_service
-from student.service.adresse_dto import AddressDTO
+from student.service.address_dto import AddressDTO
 from student.service.exam_result_dto import ExamResultDTO
 from student.service.exceptions import NotFoundError
 from student.service.student_dto import StudentDTO
@@ -202,7 +202,7 @@ def test_search_with_filters(
     assert response.status_code == status.HTTP_200_OK
     assert [student["id"] for student in response.json()] == [student_dto.id]
     service_mock.find.assert_called_once_with(
-        suchparameter=StudentSuchparameter(
+        search_parameters=StudentSearchParameters(
             last_name=student_dto.last_name,
             email=student_dto.email,
             study_program=student_dto.study_program,
@@ -225,5 +225,5 @@ def test_search_without_filters(
     assert response.status_code == status.HTTP_200_OK
     assert [student["id"] for student in response.json()] == [student_dto.id]
     service_mock.find.assert_called_once_with(
-        suchparameter=StudentSuchparameter(),
+        search_parameters=StudentSearchParameters(),
     )

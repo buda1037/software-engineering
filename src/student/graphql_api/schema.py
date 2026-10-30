@@ -13,14 +13,14 @@ lazy from strawberry.types import Info
 
 from student.graphql_api.graphql_types import CreatePayload
 from student.repository import StudentRepository
-from student.repository.student_suchparameter import StudentSuchparameter
+from student.repository.student_search_parameters import StudentSearchParameters
 from student.router.student_model import StudentModel
 from student.security import AuthorizationError, Role, User
 from student.security.dependencies import get_token_service
 from student.service.exceptions import ForbiddenError, NotFoundError
 from student.service.student_service import StudentService
 from student.service.student_write_service import StudentWriteService
-lazy from student.graphql_api.graphql_types import StudentInput, Suchparameter
+lazy from student.graphql_api.graphql_types import SearchParameters, StudentInput
 lazy from student.service.student_dto import StudentDTO
 
 __all__ = ["graphql_router"]
@@ -83,29 +83,29 @@ class Query:
     def students(
         self,
         info: Info,
-        suchparameter: Suchparameter | None = None,
+        search_parameters: SearchParameters | None = None,
     ) -> list[StudentDTO]:
         """Studenten anhand von Suchparametern suchen.
 
         :param info: Kontext mit dem Request
-        :param suchparameter: Nachname, Emailadresse und Studiengang
+        :param search_parameters: Nachname, Emailadresse und Studiengang
         :return: Die gefundenen Studenten oder eine leere Liste
         :rtype: list[StudentDTO]
         :raises GraphQLError: Falls der Benutzer nicht admin ist
         """
-        logger.debug("suchparameter={}", suchparameter)
+        logger.debug("search_parameters={}", search_parameters)
         _get_user(info, Role.ADMIN)
-        student_suchparameter: Final = (
-            StudentSuchparameter()
-            if suchparameter is None
-            else StudentSuchparameter(
-                last_name=suchparameter.last_name,
-                email=suchparameter.email,
-                study_program=suchparameter.study_program,
+        student_search_parameters: Final = (
+            StudentSearchParameters()
+            if search_parameters is None
+            else StudentSearchParameters(
+                last_name=search_parameters.last_name,
+                email=search_parameters.email,
+                study_program=search_parameters.study_program,
             )
         )
         try:
-            return list(_service.find(suchparameter=student_suchparameter))
+            return list(_service.find(search_parameters=student_search_parameters))
         except NotFoundError:
             return []
 

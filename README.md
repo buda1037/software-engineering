@@ -64,7 +64,7 @@ Die REST-Endpunkte erfordern einen Token im Header
 alle anderen Endpunkte nur für `admin`.
 
 Die GraphQL-Schnittstelle ist unter <https://localhost:8000/graphql> erreichbar,
-im Browser mit GraphiQL. Die Queries `student(id)` und `students(suchparameter)`
+im Browser mit GraphiQL. Die Queries `student(id)` und `students(searchParameters)`
 sind wie die REST-Endpunkte geschützt. Die Mutation `create(student)` legt
 einen Studenten an und ist nur für `admin` erlaubt.
 

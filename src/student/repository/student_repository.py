@@ -8,7 +8,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
 from student.entity import Student
-lazy from student.repository.student_suchparameter import StudentSuchparameter
+lazy from student.repository.student_search_parameters import StudentSearchParameters
 
 __all__ = ["StudentRepository"]
 
@@ -97,42 +97,42 @@ class StudentRepository:
 
     def find(
         self,
-        suchparameter: StudentSuchparameter,
+        search_parameters: StudentSearchParameters,
         session: Session,
     ) -> Sequence[Student]:
         """Suche mit Suchparameter.
 
-        :param suchparameter: Suchparameter für die Studentensuche
+        :param search_parameters: Suchparameter für die Studentensuche
         :param session: Session für SQLAlchemy
         :return: Die gefundenen Studenten oder eine leere Liste
         :rtype: Sequence[Student]
         """
-        logger.debug("{}", suchparameter)
+        logger.debug("{}", search_parameters)
 
         statement = select(Student).options(
             joinedload(Student.address),
             joinedload(Student.exam_results),
         )
 
-        if suchparameter.last_name is not None:
+        if search_parameters.last_name is not None:
             statement = statement.where(
                 Student.last_name.icontains(
-                    suchparameter.last_name,
+                    search_parameters.last_name,
                     autoescape=True,
                 ),
             )
 
-        if suchparameter.email is not None:
-            statement = statement.where(Student.email == suchparameter.email)
+        if search_parameters.email is not None:
+            statement = statement.where(Student.email == search_parameters.email)
 
-        if suchparameter.study_program is not None:
+        if search_parameters.study_program is not None:
             statement = statement.where(
-                Student.study_program == suchparameter.study_program,
+                Student.study_program == search_parameters.study_program,
             )
 
-        studenten: Final = session.scalars(statement).unique().all()
-        logger.debug("{}", studenten)
-        return studenten
+        students: Final = session.scalars(statement).unique().all()
+        logger.debug("{}", students)
+        return students
 
     def delete_by_id(self, student_id: int, session: Session) -> None:
         """Lösche die Daten zu einem Studenten.

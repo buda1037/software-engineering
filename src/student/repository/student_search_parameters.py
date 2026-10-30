@@ -4,11 +4,11 @@ from dataclasses import dataclass
 
 lazy from student.entity import StudyProgram
 
-__all__ = ["StudentSuchparameter"]
+__all__ = ["StudentSearchParameters"]
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class StudentSuchparameter:
+class StudentSearchParameters:
     """Suchparameter für die Studentensuche."""
 
     email: str | None = None

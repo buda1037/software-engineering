@@ -4,8 +4,8 @@ from student.graphql_api.graphql_types import (
     AddressInput,
     CreatePayload,
     ExamResultInput,
+    SearchParameters,
     StudentInput,
-    Suchparameter,
 )
 from student.graphql_api.schema import Mutation, Query, graphql_router
 
@@ -15,7 +15,7 @@ __all__ = [
     "ExamResultInput",
     "Mutation",
     "Query",
+    "SearchParameters",
     "StudentInput",
-    "Suchparameter",
     "graphql_router",
 ]
