@@ -25,8 +25,8 @@ STUDENT_FIELDS: Final = """
 STUDENT_QUERY: Final = f"query ($id: ID!) {{ student(id: $id) {{ {STUDENT_FIELDS} }} }}"
 
 STUDENTS_QUERY: Final = f"""
-query ($suchparameter: Suchparameter) {{
-    students(suchparameter: $suchparameter) {{ {STUDENT_FIELDS} }}
+query ($searchParameters: SearchParameters) {{
+    students(searchParameters: $searchParameters) {{ {STUDENT_FIELDS} }}
 }}
 """
 
@@ -79,7 +79,7 @@ def test_student_not_found(client: httpx.Client) -> None:
 
 
 @pytest.mark.parametrize(
-    ("rest_params", "suchparameter"),
+    ("rest_params", "search_parameters"),
     [
         ({}, None),
         ({"last_name": "muster"}, {"lastName": "muster"}),
@@ -93,13 +93,13 @@ def test_student_not_found(client: httpx.Client) -> None:
 def test_students(
     client: httpx.Client,
     rest_params: dict[str, str],
-    suchparameter: dict[str, str] | None,
+    search_parameters: dict[str, str] | None,
 ) -> None:
     # Arrange
     rest_students = client.get("/rest", params=rest_params).json()
 
     # Act
-    body = _query(client, STUDENTS_QUERY, {"suchparameter": suchparameter})
+    body = _query(client, STUDENTS_QUERY, {"searchParameters": search_parameters})
 
     # Assert
     assert "errors" not in body
@@ -111,7 +111,9 @@ def test_students(
 
 def test_students_not_found(client: httpx.Client) -> None:
     # Act
-    body = _query(client, STUDENTS_QUERY, {"suchparameter": {"lastName": "Unbekannt"}})
+    body = _query(
+        client, STUDENTS_QUERY, {"searchParameters": {"lastName": "Unbekannt"}}
+    )
 
     # Assert
     assert "errors" not in body

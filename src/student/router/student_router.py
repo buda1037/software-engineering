@@ -66,10 +66,10 @@ def get(
     :raises HTTPException: Falls keine Studenten gefunden wurden
     """
     try:
-        studenten = service.find(
-            suchparameter=find_model.to_suchparameter(),
+        students = service.find(
+            search_parameters=find_model.to_search_parameters(),
         )
     except NotFoundError as exc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from exc
 
-    return [StudentResponseModel.from_dto(student) for student in studenten]
+    return [StudentResponseModel.from_dto(student) for student in students]

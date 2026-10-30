@@ -1,4 +1,4 @@
--- TEXT statt varchar(n), wie im Patient-Beispiel.
+-- TEXT statt varchar(n): PostgreSQL speichert beide gleich, die Längen prüft die Anwendung.
 
 -- https://www.postgresql.org/docs/current/manage-ag-tablespaces.html
 SET default_tablespace = studentspace;

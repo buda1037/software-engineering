@@ -1,4 +1,4 @@
-"""Unit tests for the entity classes."""
+"""Unit-Tests für die Entity-Klassen."""
 
 from datetime import date
 from decimal import Decimal

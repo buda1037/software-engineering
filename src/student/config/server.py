@@ -1,4 +1,4 @@
-"""Configure the ASGI server host and port."""
+"""Konfiguration für Host und Port des ASGI-Servers."""
 
 from typing import Final
 

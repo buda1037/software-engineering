@@ -1,4 +1,4 @@
-"""Enum for the gender of a student."""
+"""Enum für das Geschlecht eines Studenten."""
 
 from enum import StrEnum
 
@@ -9,7 +9,7 @@ __all__ = ["Gender"]
 
 @strawberry.enum
 class Gender(StrEnum):
-    """Gender of a student."""
+    """Geschlecht eines Studenten."""
 
     MALE = "MALE"
     FEMALE = "FEMALE"

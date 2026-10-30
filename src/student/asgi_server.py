@@ -1,4 +1,4 @@
-"""ASGI server that runs the student REST service."""
+"""ASGI-Server für die Anwendung."""
 
 from importlib.resources import as_file
 
@@ -11,7 +11,7 @@ __all__ = ["run"]
 
 
 def run() -> None:
-    """Start the student REST service over HTTPS."""
+    """Die Anwendung über HTTPS starten."""
     with (
         as_file(tls_certfile) as certificate_path,
         as_file(tls_keyfile) as key_path,

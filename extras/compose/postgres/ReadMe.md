@@ -1,7 +1,5 @@
 # PostgreSQL für Student
 
-Die Einrichtung orientiert sich am Patient-Beispiel von Jürgen Zimmermann.
-
 ## Voraussetzungen
 
 - Docker Desktop mit laufender Linux-Engine

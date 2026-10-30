@@ -1,4 +1,4 @@
-"""Entity class for a student."""
+"""Entity-Klasse für einen Studenten."""
 
 lazy from datetime import date
 
@@ -15,7 +15,7 @@ __all__ = ["Student"]
 
 
 class Student(Base, kw_only=True, eq=False):
-    """Entity class for a student."""
+    """Entity-Klasse für einen Studenten."""
 
     __tablename__ = "student"
 

@@ -1,4 +1,4 @@
-"""Expose the server and TLS configuration."""
+"""Konfiguration für Server und TLS."""
 
 from student.config.server import host_binding, port
 from student.config.tls import tls_certfile, tls_keyfile

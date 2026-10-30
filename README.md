@@ -1,28 +1,34 @@
 # Software Engineering
 
-Results of the Software Engineering module at [Hochschule Karlsruhe (HKA)](https://www.h-ka.de).
+Ergebnisse des Moduls Software Engineering an der
+[Hochschule Karlsruhe (HKA)](https://www.h-ka.de): eine Anwendung zur Verwaltung
+von Studenten mit REST- und GraphQL-Schnittstelle.
 
-## Requirements
+## Voraussetzungen
 
 - [Python 3.15](https://www.python.org/downloads/)
-- [uv](https://docs.astral.sh/uv/getting-started/installation/) 0.12.20 or later
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) 0.12.20 oder neuer
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- For SonarQube and OWASP Dependency Check: the course tools in `C:\Zimmermann` must be installed and configured properly
+- Für SonarQube und OWASP Dependency Check: die Kurswerkzeuge in `C:\Zimmermann`,
+  installiert und eingerichtet
 
-## Setup
+## Einrichtung
 
-Create the virtual environment and install all dependencies including the development tools:
+Virtuelle Umgebung mit allen Abhängigkeiten einschließlich der Entwicklungswerkzeuge
+anlegen:
 
 ```powershell
 uv sync
 ```
 
-## Running the server
+Die Datei `.env` aus `.env.example` anlegen. Sie wird von Git ignoriert.
 
-Die Anwendung braucht PostgreSQL und Keycloak. Die einmalige Einrichtung steht in
+PostgreSQL und Keycloak einmalig einrichten, wie in
 [extras/compose/postgres/ReadMe.md](extras/compose/postgres/ReadMe.md) und
-[extras/compose/keycloak/ReadMe.md](extras/compose/keycloak/ReadMe.md),
+[extras/compose/keycloak/ReadMe.md](extras/compose/keycloak/ReadMe.md) beschrieben,
 einschließlich des Client-Geheimnisses `KEYCLOAK_CLIENT_SECRET` in `.env`.
+
+## Server starten
 
 Wähle genau eine Variante, weil beide Port 8000 verwenden.
 
@@ -54,8 +60,10 @@ Alle Container stoppen:
 docker compose -f extras/compose/student/compose.yml down
 ```
 
-Die API ist beispielsweise unter <https://localhost:8000/rest/1> erreichbar.
-Das TLS-Zertifikat ist selbstsigniert.
+## Schnittstellen
+
+Die REST-Schnittstelle ist beispielsweise unter <https://localhost:8000/rest/1>
+erreichbar. Das TLS-Zertifikat ist selbstsigniert.
 
 Die REST-Endpunkte erfordern einen Token im Header
 `Authorization: Bearer <Token>`. `POST /auth/token` mit
@@ -64,16 +72,16 @@ Die REST-Endpunkte erfordern einen Token im Header
 alle anderen Endpunkte nur für `admin`.
 
 Die GraphQL-Schnittstelle ist unter <https://localhost:8000/graphql> erreichbar,
-im Browser mit GraphiQL. Die Queries `student(id)` und `students(suchparameter)`
+im Browser mit GraphiQL. Die Queries `student(id)` und `students(searchParameters)`
 sind wie die REST-Endpunkte geschützt. Die Mutation `create(student)` legt
 einen Studenten an und ist nur für `admin` erlaubt.
 
-In Bruno in der Umgebung `student` die geheimen Variablen `clientSecret`
-(Wert aus `.env`) und `password` (`p`) setzen.
+Die Bruno-Collection liegt in `extras/bruno/student`. In der Umgebung `student`
+die geheimen Variablen `clientSecret` (Wert aus `.env`) und `password` (`p`) setzen.
 
-## Checks and tests
+## Prüfungen und Tests
 
-Commands run by the CI:
+Befehle der CI:
 
 ```powershell
 uv run ruff check src tests
@@ -81,91 +89,24 @@ uv run ruff format --check src tests
 uv run ty check
 uv run pyrefly check
 uv run yamllint --strict .
-uv run pytest
+uv run pytest tests/unit
 uv audit
 ```
 
-`uv audit` checks the locked dependencies for known vulnerabilities.
+`uv audit` prüft die gesperrten Abhängigkeiten auf bekannte Schwachstellen.
 
-## Library Skills
+### Unit-Tests
 
-[Library Skills](https://github.com/tiangolo/library-skills) provides the agent skills shipped with FastAPI in `.agents/skills` and `.claude/skills`. Both directories are excluded from Git. Create them after `uv sync`:
-
-```powershell
-uvx library-skills --all --claude --copy --yes
-```
-
-`--copy` avoids symlinks, which require Developer Mode on Windows. After a FastAPI update, delete both directories and run the command again.
-
-## Code analysis with SonarQube
-
-Start the server:
+Die Unit-Tests brauchen keinen laufenden Server und keine Datenbank:
 
 ```powershell
-docker compose -f extras/compose/sonarqube/compose.yml up -d
+uv run pytest tests/unit
 ```
 
-Plugins are loaded from `C:\Zimmermann\volumes\sonarqube\extensions`.
+### Integrationstests
 
-Initial setup:
-
-1. Open <http://localhost:9000>, log in as `admin` / `admin` and change the password.
-2. Generate a _Global Analysis Token_ under _My Account > Security_.
-3. Set the token as `SONAR_TOKEN` in `.env` (template: `.env.example`).
-
-Then run the analysis:
-
-```powershell
-uv run sonar-scanner.py
-```
-
-Results: <http://localhost:9000/dashboard?id=student>
-
-Stop the server:
-
-```powershell
-docker compose -f extras/compose/sonarqube/compose.yml down
-```
-
-## OWASP Dependency Check
-
-Requires an [NVD API key](https://nvd.nist.gov/developers/request-an-api-key) as `NVD_API_KEY` in `.env` (template: `.env.example`).
-
-```powershell
-uv run extras/dependency-check.py
-```
-
-Report: `dependency-check-report.html`. The first run downloads the NVD database (about two hours). False positives are suppressed with a justification in [extras/suppression.xml](extras/suppression.xml).
-
-## Dokumentation
-
-Die Dokumentation verwendet MkDocs mit dem Material-Theme.
-
-Lokale Vorschau starten:
-
-```powershell
-uv run mkdocs serve --dev-addr 127.0.0.1:8001
-```
-
-Danach http://127.0.0.1:8001 öffnen.
-Port 8001 ermöglicht die Vorschau neben der Student-API auf Port 8000.
-Mit Strg+C beenden.
-
-HTML-Dokumentation erzeugen:
-
-```powershell
-uv run mkdocs build
-```
-
-Die Ausgabe liegt in `site/`. Dieser Ordner wird von Git ignoriert.
-
-## Integrationstests
-
-Die Integrationstests senden HTTP-Anfragen an den laufenden Student-Server,
-hier in Docker Compose. PostgreSQL und Keycloak müssen eingerichtet sein,
-siehe [Running the server](#running-the-server).
-
-Im Hauptverzeichnis mit PowerShell ausführen:
+Die Integrationstests senden HTTP-Anfragen an den laufenden Server, hier in
+Docker Compose. Im Hauptverzeichnis mit PowerShell ausführen:
 
 ```powershell
 docker compose -f extras/compose/student/compose.yml up -d --build --wait
@@ -180,19 +121,10 @@ werden ersetzt. Diese Tests nur gegen die lokale Übungsdatenbank ausführen.
 Der Testclient prüft das HTTPS-Zertifikat anhand der Datei
 `src/student/config/resources/tls/certificate.crt`.
 
-Nur Unit-Tests ausführen, ohne laufenden Server oder Datenbank:
-
-```powershell
-uv run pytest tests/unit
-```
-
-Die CI führt ausschließlich die Unit-Tests aus.
-
-## Lasttest
+### Lasttest
 
 Der Lasttest mit Locust fordert einen Token als `admin` an und sendet danach
-GET-Requests mit ID und Suchparametern. Der Server muss laufen, siehe
-[Running the server](#running-the-server).
+GET-Requests mit ID und Suchparametern. Der Server muss laufen.
 
 ```powershell
 uv run locust -f tests/loadtest/locustfile.py
@@ -207,3 +139,82 @@ uv run locust -f tests/loadtest/locustfile.py --headless -u 10 -r 5 -t 30s
 
 Für aussagekräftige Antwortzeiten in `app.toml` die mit
 `locust: auskommentieren` markierten Einträge auskommentieren.
+
+## Dokumentation
+
+Die Dokumentation verwendet MkDocs mit dem Material-Theme.
+
+Lokale Vorschau starten:
+
+```powershell
+uv run mkdocs serve --dev-addr 127.0.0.1:8001
+```
+
+Danach <http://127.0.0.1:8001> öffnen.
+Port 8001 ermöglicht die Vorschau neben dem Server auf Port 8000.
+Mit Strg+C beenden.
+
+HTML-Dokumentation erzeugen:
+
+```powershell
+uv run mkdocs build
+```
+
+Die Ausgabe liegt in `site/`. Dieser Ordner wird von Git ignoriert.
+
+## Code-Analyse mit SonarQube
+
+Server starten:
+
+```powershell
+docker compose -f extras/compose/sonarqube/compose.yml up -d
+```
+
+Die Plugins werden aus `C:\Zimmermann\volumes\sonarqube\extensions` geladen.
+
+Einmalige Einrichtung:
+
+1. <http://localhost:9000> öffnen, als `admin` / `admin` anmelden und das Passwort ändern.
+2. Unter _My Account > Security_ einen _Global Analysis Token_ erzeugen.
+3. Den Token als `SONAR_TOKEN` in `.env` eintragen.
+
+Danach die Analyse starten:
+
+```powershell
+uv run sonar-scanner.py
+```
+
+Ergebnisse: <http://localhost:9000/dashboard?id=student>
+
+Server stoppen:
+
+```powershell
+docker compose -f extras/compose/sonarqube/compose.yml down
+```
+
+## OWASP Dependency Check
+
+Erfordert einen [NVD API Key](https://nvd.nist.gov/developers/request-an-api-key)
+als `NVD_API_KEY` in `.env`.
+
+```powershell
+uv run extras/dependency-check.py
+```
+
+Bericht: `dependency-check-report.html`. Der erste Lauf lädt die NVD-Datenbank
+herunter (etwa zwei Stunden). Fehlalarme sind mit Begründung in
+[extras/suppression.xml](extras/suppression.xml) unterdrückt.
+
+## Library Skills
+
+[Library Skills](https://github.com/tiangolo/library-skills) stellt die mit
+FastAPI ausgelieferten Agent Skills in `.agents/skills` und `.claude/skills`
+bereit. Beide Verzeichnisse werden von Git ignoriert. Nach `uv sync` anlegen:
+
+```powershell
+uvx library-skills --all --claude --copy --yes
+```
+
+`--copy` vermeidet symbolische Links, die unter Windows den Entwicklermodus
+erfordern. Nach einem Update von FastAPI beide Verzeichnisse löschen und den
+Befehl erneut ausführen.
