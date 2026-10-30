@@ -1,5 +1,5 @@
 ---
-name: student-postgres
+name: student
 
 services:
   postgres:

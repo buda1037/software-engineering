@@ -38,6 +38,9 @@ Im Hauptverzeichnis des Projekts:
 docker compose -f extras/compose/keycloak/compose.yml up -d
 ```
 
+Für den Betrieb mit der Anwendung startet `extras/compose/backend`
+PostgreSQL und Keycloak gemeinsam, siehe README im Hauptverzeichnis.
+
 Administrationskonsole: http://localhost:8880/admin/
 
 Anmeldung: Benutzer `tmp`, Passwort `p`.

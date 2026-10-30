@@ -1,0 +1,35 @@
+---
+# Anwendung mit PostgreSQL und Keycloak
+name: student
+
+include:
+  - path: ../backend/compose.yml
+
+services:
+  student:
+    build:
+      context: ../../..
+    pull_policy: build
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - type: bind
+        source: app.toml
+        target: /opt/app/.venv/lib/python3.15/site-packages/student/config/resources/app.toml
+        read_only: true
+      - type: bind
+        source: ../../../src/student/config/resources/tls/key.pem
+        target: /opt/app/.venv/lib/python3.15/site-packages/student/config/resources/tls/key.pem
+        read_only: true
+    # KEYCLOAK_CLIENT_SECRET aus der .env im Hauptverzeichnis
+    env_file: ../../../.env
+    networks: [student-network]
+    hostname: student
+    container_name: student
+    cap_drop: [ALL]
+    restart: unless-stopped
